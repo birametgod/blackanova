@@ -56,12 +56,12 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                       child: ConnexionScreen(),
                       type: PageTransitionType.leftToRight));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               color: Color(0xFFF2BB00),
             ),
           ),
-          title: Text(
+          title: const Text(
             'Confirmation',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -72,13 +72,13 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
         ),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 top: 50.0, left: 20.0, right: 20.0, bottom: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Saisissez le code 6 chiffres reçus',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -90,7 +90,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                     ? Text(
                   errorText,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 20.0,
                       color: Color(0xFF273553)),
@@ -108,7 +108,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                       ),
                       TextSpan(
                         text: "${widget.numberPhone}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 20.0,
                             color: Color(0xFF273553)),
@@ -117,7 +117,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                   child: PinCodeTextField(
                     animationType: AnimationType.slide,
                     backgroundColor: Colors.transparent,
@@ -127,7 +127,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                     appContext: context,
                     length: 6,
                     keyboardAppearance: Brightness.dark,
-                    textStyle: TextStyle(color: Colors.black),
+                    textStyle: const TextStyle(color: Colors.black),
                     pinTheme: PinTheme(
                       shape: PinCodeFieldShape.underline,
                       borderRadius: BorderRadius.circular(5.0),
@@ -157,7 +157,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () =>
                               {signInPhone(widget.numberPhone, context)},
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15.0,
                                 color: Color(0xFF273553)),
@@ -167,7 +167,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                     ),
                     Ink(
                         width: 65.0,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           color: Color(0xFFF2BB00),
                           shape: RoundedRectangleBorder(
                               side: BorderSide(
@@ -176,7 +176,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                               BorderRadius.all(Radius.circular(15.0))),
                         ),
                         child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward,
                               color: Color(0xFF464F63),
                               size: 35.0,

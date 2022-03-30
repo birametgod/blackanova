@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:blackanova/screens/connexion_screen.dart';
 import 'package:blackanova/widgets/google_font_one.dart';
 
@@ -41,7 +39,7 @@ class _SplashScreenBeginState extends State<SplashScreenBegin> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/lac_rose.jpeg'),
                 fit: BoxFit.cover,
@@ -60,15 +58,15 @@ class _SplashScreenBeginState extends State<SplashScreenBegin> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
+                          children: const <Widget>[
                             GoogleFontOne(
-                                textValue: 'Trouvez\nvotre chauffeur\nen un peu de temps',
+                                textValue: 'Trouvez\nvotre coiffeuse\nen un peu de temps',
                                 size: 0.0,
                                 weight:  FontWeight.w800 ,
                                 height: 1.2
                             ),
                             GoogleFontOne(
-                              textValue: "Vous serez bientôt en route" ,
+                              textValue: "Vous serez bientôt en contact" ,
                               size: 20.0,
                             )
                           ],

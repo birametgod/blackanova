@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final _auth = FirebaseAuth.instance;
-  // check late modifiers
+  // check late modifier
   late User loggedUser;
 
   @override
