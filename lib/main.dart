@@ -1,4 +1,5 @@
 import 'package:blackanova/screens/welcome_screen.dart';
+import 'package:blackanova/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomeScreen(),
+      home: SplashScreenBegin(),
     );
   }
 }

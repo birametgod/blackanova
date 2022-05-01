@@ -44,7 +44,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFE7E7E7),
+        backgroundColor: gradientEnd,
         appBar: AppBar(
           backgroundColor: Colors.white,
           brightness: Brightness.light, // status bar brightness

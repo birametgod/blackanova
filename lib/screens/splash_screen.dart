@@ -83,3 +83,4 @@ class _SplashScreenBeginState extends State<SplashScreenBegin> {
     );
   }
 }
+//Find the perfect Hairstyler at your door step
