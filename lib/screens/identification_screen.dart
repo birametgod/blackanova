@@ -1,26 +1,28 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:blackanova/services/user.dart';
 
-class IdenticationScreen extends StatefulWidget {
+import '../constants.dart';
+
+class IdentificationScreen extends StatefulWidget {
   final bool isConnectingWithPhoneNumber;
   final User? user;
 
-  IdenticationScreen(
-      {required this.user, required this.isConnectingWithPhoneNumber});
+  const IdentificationScreen(
+      {required this.user, required this.isConnectingWithPhoneNumber, Key? key})
+      : super(key: key);
 
   @override
-  _IdenticationScreenState createState() => _IdenticationScreenState();
+  _IdentificationScreenState createState() => _IdentificationScreenState();
 }
 
-class _IdenticationScreenState extends State<IdenticationScreen> {
-  String countryCode = "";
+class _IdentificationScreenState extends State<IdentificationScreen> {
   String dropdownValue = "User";
   bool isRider = false;
   bool isConnectingWithPhoneNumber = false;
   final _formKey = GlobalKey<FormState>();
+  late String countryCode;
   late TextEditingController fullNameController;
   late TextEditingController numberPhoneController;
   late TextEditingController idLicenseController;
@@ -30,7 +32,7 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
 
   void _onCountryChange(CountryCode code) {
     countryCode = code.toString();
-    print(countryCode);
+    debugPrint(countryCode);
   }
 
   void _createUser() {
@@ -39,8 +41,27 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
       String mobile = countryCode + numberPhoneController.text.trim();
       String typeUser = dropdownValue;
       String idLicense = isRider ? idLicenseController.text : "";
-      addUser(widget.user,fullName,mobile,idLicense,typeUser,context);
+      addUser(widget.user, fullName, mobile, idLicense, typeUser, context);
     }
+  }
+
+  String? _validateText(String text, TextEditingController fullNameController) {
+    fullNameController.text = text;
+    if (text.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
+  String? _validateNumberPhone(
+      String numberPhone, TextEditingController phoneController) {
+    phoneController.text = numberPhone;
+    if (numberPhone.isEmpty) {
+      return 'Please enter a valid number';
+    } else if (numberPhone.length != 9) {
+      return '9 digit for mobile phone';
+    }
+    return null;
   }
 
   @override
@@ -71,37 +92,22 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Color(0xFFE7E7E7),
+      backgroundColor: const Color(0xFFE7E7E7),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF646464),
-                Color(0xFF717271),
-                Color(0xFF737473),
-                Color(0xFFA2A5A2),
-                Color(0xFFE7E7E7),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              //stops: [0.1, 0.3, 0.5, 0.7, 0.9],
-            )),
+        decoration: identificationBodyDecoration,
         child: SafeArea(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                    onTap: () => Navigator.pop(context),
                     child: Row(
-                      children: [
+                      children: const <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
                           color: Colors.white,
@@ -113,198 +119,183 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 35.0,
                   ),
-                  Text('Connexion',
+                  const Text('Connexion',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 48,
                           color: Colors.white,
                           fontWeight: FontWeight.bold)),
                   Expanded(
-                    child: Container(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              child: TextFormField(
-                                controller: fullNameController,
-                                focusNode: _fullNameNode,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                autofocus: true,
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                    filled: false,
-                                    fillColor: Colors.white,
-                                    icon: Icon(
-                                      Icons.person,
-                                      color: Colors.white,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                      BorderSide(color: Colors.white),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    hintText: "nom et prenom"),
-                                onChanged: (String value) {},
-                                validator: (value) {
-                                  fullNameController.text = value!;
-                                  if (value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            widget.isConnectingWithPhoneNumber
-                                ? Container()
-                                : RaisedButton(
-                              onPressed: () {},
-                              padding: EdgeInsets.all(0.0),
-                              color: Color(0xFFF7F7F7),
-                              child: Container(
-                                //color:  Color(0xFFF2B903),
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Container(
-                                      child: Row(
-                                        children: [
-                                          CountryCodePicker(
-                                            onChanged: _onCountryChange,
-                                            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                            initialSelection: 'IT',
-                                            favorite: ['+39', 'FR'],
-                                            // optional. Shows only country name and flag
-                                            showCountryOnly: false,
-                                            // optional. Shows only country name and flag when popup is closed.
-                                            showOnlyCountryWhenClosed: false,
-                                            // optional. aligns the flag and the Text left
-                                            alignLeft: false,
-                                          ),
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                          Container(
-                                            width: 110.0,
-                                            child: TextFormField(
-                                              controller: numberPhoneController,
-                                              focusNode: _numberPhoneNode,
-                                              keyboardType: TextInputType.phone,
-                                              textInputAction: TextInputAction.done,
-                                              cursorColor: Colors.black,
-                                              validator: (value) {
-                                                // validate my input number phone
-                                                numberPhoneController.text = value!;
-                                                if (value.isEmpty) {
-                                                  return 'Please enter a valid number';
-                                                } else if (value.length != 9) {
-                                                  return '9 digit for mobile phone';
-                                                }
-                                                return null;
-                                              },
-                                              decoration: InputDecoration(
-                                                focusColor: Colors.black,
-                                                hoverColor: Colors.black,
-                                                hintText: 'saisir numéro',
-                                              ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextFormField(
+                            controller: fullNameController,
+                            focusNode: _fullNameNode,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.name,
+                            autofocus: true,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                                filled: false,
+                                fillColor: Colors.white,
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red),
+                                ),
+                                hintStyle: TextStyle(color: Colors.white),
+                                hintText: "nom et prenom"),
+                            onChanged: (String value) {},
+                            validator: (value) =>
+                                _validateText(value!, fullNameController),
+                          ),
+                          widget.isConnectingWithPhoneNumber
+                              ? Container()
+                              : Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        primary: const Color(0xFFF7F7F7)),
+                                    child: Container(
+                                        //color:  Color(0xFFF2B903),
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                          children: [
+                                            CountryCodePicker(
+                                              onChanged: _onCountryChange,
+                                              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                              initialSelection: 'IT',
+                                              favorite: ['+39', 'FR'],
+                                              // optional. Shows only country name and flag
+                                              showCountryOnly: false,
+                                              // optional. Shows only country name and flag when popup is closed.
+                                              showOnlyCountryWhenClosed: false,
+                                              // optional. aligns the flag and the Text left
+                                              alignLeft: false,
                                             ),
-                                          )
-                                        ],
-                                      ))),
+                                            const SizedBox(
+                                              width: 12,
+                                            ),
+                                            SizedBox(
+                                              width: 110.0,
+                                              child: TextFormField(
+                                                controller:
+                                                    numberPhoneController,
+                                                focusNode: _numberPhoneNode,
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                cursorColor: Colors.black,
+                                                validator: (value) =>
+                                                    _validateNumberPhone(value!,
+                                                        numberPhoneController),
+                                                decoration:
+                                                    const InputDecoration(
+                                                  focusColor: Colors.black,
+                                                  hoverColor: Colors.black,
+                                                  hintText: 'saisir numéro',
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                          DropdownButton<String>(
+                            value: dropdownValue,
+                            iconSize: 24,
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.white),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white,
                             ),
-                            Container(
-                                child: DropdownButton<String>(
-                                  value: dropdownValue,
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  style: TextStyle(color: Colors.white),
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.white,
-                                  ),
-                                  dropdownColor: Colors.grey[500],
-                                  underline: Container(
-                                    height: 3,
-                                    color: Colors.white,
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      dropdownValue = newValue!;
-                                      newValue == "Driver"
-                                          ? isRider = true
-                                          : isRider = false;
-                                    });
+                            dropdownColor: Colors.grey[500],
+                            underline: Container(
+                              height: 3,
+                              color: Colors.white,
+                            ),
+                            onChanged: (newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                                newValue == "Driver"
+                                    ? isRider = true
+                                    : isRider = false;
+                              });
+                            },
+                            items: <String>['User', 'Driver']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          isRider
+                              ? TextFormField(
+                                  controller: idLicenseController,
+                                  focusNode: _idLicenseNode,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.name,
+                                  autofocus: true,
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: const InputDecoration(
+                                      filled: false,
+                                      fillColor: Colors.white,
+                                      icon: Icon(
+                                        Icons.perm_identity,
+                                        color: Colors.white,
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.red),
+                                      ),
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintText: "id permis"),
+                                  onChanged: (String value) {},
+                                  validator: (value) {
+                                    idLicenseController.text = value!;
+                                    if (value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
                                   },
-                                  items: <String>[
-                                    'User',
-                                    'Driver'
-                                  ].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                )),
-                            isRider
-                                ? Container(
-                              child: TextFormField(
-                                controller: idLicenseController,
-                                focusNode: _idLicenseNode,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.name,
-                                autofocus: true,
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                    filled: false,
-                                    fillColor: Colors.white,
-                                    icon: Icon(
-                                      Icons.perm_identity,
-                                      color: Colors.white,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                      BorderSide(color: Colors.white),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                      BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle:
-                                    TextStyle(color: Colors.white),
-                                    hintText: "id permis"),
-                                onChanged: (String value) {},
-                                validator: (value) {
-                                  idLicenseController.text = value!;
-                                  if (value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            )
-                                : Container(),
-                            SizedBox(
-                              height: 35.0,
-                            ),
-                            RaisedButton(
+                                )
+                              : Container(),
+                          const SizedBox(
+                            height: 35.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: ElevatedButton(
                               // SIGN IN TO GOOGLE
                               onPressed: () async {
                                 _createUser();
                               },
-                              padding: EdgeInsets.all(0.0),
                               child: Container(
-                                  color: Color(0xFFF7F7F7),
-                                  padding: EdgeInsets.all(10.0),
+                                  color: const Color(0xFFF7F7F7),
+                                  padding: const EdgeInsets.all(10.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
                                       Text("Je m'inscris",
                                           style: TextStyle(
@@ -314,8 +305,8 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
                                     ],
                                   )),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   )
@@ -328,4 +319,3 @@ class _IdenticationScreenState extends State<IdenticationScreen> {
     );
   }
 }
-

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:blackanova/screens/home_screen.dart';
-import 'package:blackanova/screens/identification_screen.dart';
 
 Future<void> addUser(User? user,String name, String phoneNumber,String idLicense, String typeUser, BuildContext context) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
