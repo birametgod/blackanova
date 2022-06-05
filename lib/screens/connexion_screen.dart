@@ -130,7 +130,7 @@ class _ConnexionScreenState extends State<ConnexionScreen> {
                         child: ConnexionButton(
                           color: const Color(0xFF0596F2),
                           padding: const EdgeInsets.all(10.0),
-                          image: const AssetImage('assets/images/facebo.png'),
+                          image: const AssetImage('assets/images/googleFlat.png'),
                           title: 'Continuer avec Facebook',
                           onPressed: () {},
                         ),
@@ -143,7 +143,7 @@ class _ConnexionScreenState extends State<ConnexionScreen> {
                         child: ConnexionButton(
                           color: const Color(0xFFF7F7F7),
                           padding: const EdgeInsets.all(10.0),
-                          image: const AssetImage('assets/images/google.png'),
+                          image: const AssetImage('assets/images/googleFlat.png'),
                           title: 'Continuer avec Google',
                           onPressed: () async {
                             await signInWithGoogle().then((user) {
