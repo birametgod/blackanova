@@ -114,7 +114,7 @@ class _ConnexionScreenState extends State<ConnexionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Abiria",
+                    "Blackanova",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       color: Colors.grey[800],
