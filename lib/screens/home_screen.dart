@@ -23,11 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final user =  _auth.currentUser;
       if (user != null) {
-        print(user);
         loggedUser = user;
       }
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      debugPrint('debug: $error');
     }
   }
 

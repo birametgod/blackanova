@@ -16,8 +16,7 @@ class VerifyScreenSecond extends StatefulWidget {
   final String verificationId;
   final String numberPhone;
 
-  VerifyScreenSecond(
-      {required this.verificationId, required this.numberPhone});
+  VerifyScreenSecond({required this.verificationId, required this.numberPhone});
 
   @override
   _VerifyScreenSecondState createState() => _VerifyScreenSecondState();
@@ -219,7 +218,7 @@ class _VerifyScreenSecondState extends State<VerifyScreenSecond> {
                                       // add user
                                       Navigator.of(context).push(
                                         PageTransition(
-                                            child: IdenticationScreen(
+                                            child: IdentificationScreen(
                                               user: result.user,
                                               isConnectingWithPhoneNumber:
                                               true,

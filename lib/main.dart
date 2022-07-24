@@ -1,5 +1,4 @@
-import 'package:blackanova/screens/welcome_screen.dart';
-import 'package:blackanova/screens/splash_screen.dart';
+import 'package:blackanova/screens/connexion_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,11 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Ride & Drivers Demo',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: SplashScreenBegin(),
+      home: ConnexionScreen(key: key,)
     );
   }
 }

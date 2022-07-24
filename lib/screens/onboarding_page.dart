@@ -6,6 +6,8 @@ import 'package:blackanova/widgets/card_info.dart';
 import 'package:blackanova/widgets/google_font_one.dart';
 
 class OnBoarding extends StatefulWidget {
+  const OnBoarding({Key? key}) : super(key: key);
+
   @override
   _OnBoardingState createState() => _OnBoardingState();
 }
@@ -28,13 +30,13 @@ class _OnBoardingState extends State<OnBoarding> {
 
   Widget indicator(bool isActive) {
     return AnimatedContainer(
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
-      duration: Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      duration: const Duration(milliseconds: 150),
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
           color: isActive ? gradientThird : gradientFirst,
-          borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(12.0))),
     );
   }
 
@@ -53,36 +55,42 @@ class _OnBoardingState extends State<OnBoarding> {
                 Container(
                   height: 40.0,
                   alignment: Alignment.centerRight,
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(
                       'Skip',
                       style: GoogleFonts.poppins(
-                          textStyle:
-                          TextStyle(fontSize: 20.0, color: Colors.white
-                            //fontWeight: FontWeight.bold
-                          )),
+                          textStyle: const TextStyle(
+                              fontSize: 20.0, color: Colors.white
+                              //fontWeight: FontWeight.bold
+                              )),
                     ),
                     onPressed: () {},
                   ),
                 ),
                 Expanded(
                   flex: 4,
-                  child: Container(
-                    //height: 650,
-                    child: PageView(
-                      physics: ClampingScrollPhysics(),
-                      controller: _pageController,
-                      onPageChanged: (currentPage) {
-                        setState(() {
-                          _currentPage = currentPage;
-                        });
-                      },
-                      children: <Widget>[
-                        CardInfo(imagePath: 'assets/images/location.png',width: 300.0, height: 300.0),
-                        CardInfo(imagePath: 'assets/images/finder.png',width: 300.0, height: 300.0),
-                        CardInfo(imagePath: 'assets/images/city.png',width: 300.0, height: 300.0)
-                      ],
-                    ),
+                  child: PageView(
+                    physics: const ClampingScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (currentPage) {
+                      setState(() {
+                        _currentPage = currentPage;
+                      });
+                    },
+                    children: <Widget>[
+                      CardInfo(
+                          imagePath: 'assets/images/location.png',
+                          width: 300.0,
+                          height: 300.0),
+                      CardInfo(
+                          imagePath: 'assets/images/finder.png',
+                          width: 300.0,
+                          height: 300.0),
+                      CardInfo(
+                          imagePath: 'assets/images/city.png',
+                          width: 300.0,
+                          height: 300.0)
+                    ],
                   ),
                 ),
                 Expanded(
@@ -93,62 +101,62 @@ class _OnBoardingState extends State<OnBoarding> {
                 ),
                 _currentPage != _numPages - 1
                     ? Expanded(
-                  child: Container(
-                    alignment: Alignment.bottomRight,
-                    padding: EdgeInsets.only(bottom: 40.0, right: 20.0),
-                    child: FlatButton(
-                      onPressed: () {
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 1),
-                            curve: Curves.ease);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: gradientFirst,
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(20.0))),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            GoogleFontOne(size: 20.0, textValue: 'Next'),
-                            SizedBox(
-                              width: 10.0,
+                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          padding:
+                              const EdgeInsets.only(bottom: 40.0, right: 20.0),
+                          child: TextButton(
+                            onPressed: () {
+                              _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 1),
+                                  curve: Curves.ease);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: gradientFirst,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0))),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  const GoogleFontOne(
+                                      size: 20.0, textValue: 'Next'),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: gradientEnd,
+                                    size: 20.0,
+                                  )
+                                ],
+                              ),
                             ),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: gradientEnd,
-                              size: 20.0,
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                )
+                      )
                     : Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: gradientSecond,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50.0),
-                            topRight: Radius.circular(50.0))),
-                    height: 100.0,
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: () => print('Get started'),
-                      child: Center(
-                        child: Padding(
-                            padding: EdgeInsets.only(bottom: 10.0),
-                            child: GoogleFontOne(
-                                textValue: 'Get started',
-                                size: 30.0)
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: gradientSecond,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(50.0),
+                                  topRight: Radius.circular(50.0))),
+                          height: 100.0,
+                          width: double.infinity,
+                          child: GestureDetector(
+                            onTap: () => debugPrint('Get started'),
+                            child: const Center(
+                              child: Padding(
+                                  padding: EdgeInsets.only(bottom: 10.0),
+                                  child: GoogleFontOne(
+                                      textValue: 'Get started', size: 30.0)),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                )
+                      )
               ],
             ),
           ),
@@ -157,4 +165,3 @@ class _OnBoardingState extends State<OnBoarding> {
     );
   }
 }
-
