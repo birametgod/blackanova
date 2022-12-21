@@ -1,9 +1,11 @@
+import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/screens/register_page.dart';
+import 'package:blackanova/widgets/my_password_field.dart';
+import 'package:blackanova/widgets/my_text_button.dart';
+import 'package:blackanova/widgets/my_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../constants.dart';
-import '../widgets/login_widget.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -12,6 +14,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  final _formKey = GlobalKey<FormState>();
   bool isPasswordVisible = true;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -26,127 +31,224 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.blackanova.background,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: AppColors.blackanova.background,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Image(
+          icon: Image(
             width: 24,
-            color: Colors.white,
-            image: Svg('assets/images/back_arrow.svg'),
+            color: Colors.black,
+            image: Svg(Assets.backArrowSvg),
           ),
         ),
       ),
       body: SafeArea(
-        //to make page scrollable
-        child: CustomScrollView(
-          reverse: true,
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        // Build a Form widget using the _formKey created above.
+        child: Form(
+          key: _formKey,
+          // to make page scrollable
+          child: CustomScrollView(
+            reverse: true,
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Welcome back.",
+                              style: AppTextStyles.blackanova.alegreyaTitle,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "You've been missed!",
+                              style: AppTextStyles.blackanova.alegreyaSubTitle,
+                            ),
+                            const SizedBox(
+                              height: 60,
+                            ),
+                            MyTextField(
+                              hintText: 'Phone, email or username',
+                              inputType: TextInputType.text,
+                              myController: emailController,
+                            ),
+                            TextFormField(
+                              controller: emailController,
+                              style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(20),
+                                hintText: 'Phone, email or username',
+                                hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                            ),
+                            MyPasswordField(
+                              myController: passwordController,
+                              isPasswordVisible: isPasswordVisible,
+                              onTap: () {
+                                setState(() {
+                                  isPasswordVisible = !isPasswordVisible;
+                                });
+                              },
+                            ),
+                            TextFormField(
+                              controller: passwordController,
+                              style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onPressed: () {
+                                      setState(() {
+                                        isPasswordVisible = !isPasswordVisible;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                contentPadding: const EdgeInsets.all(20),
+                                hintText: 'Password',
+                                hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "Welcome back.",
-                            style: kHeadline,
+                          Text(
+                            "Don't have an account ?",
+                            style: AppTextStyles.blackanova.alegreyaDescription,
                           ),
                           const SizedBox(
-                            height: 10,
+                            width: 10.0,
                           ),
-                          const Text(
-                            "You've been missed!",
-                            style: kBodyText2,
-                          ),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          MyTextField(
-                            hintText: 'Phone, email or username',
-                            inputType: TextInputType.text,
-                            myController: emailController,
-                          ),
-                          MyPasswordField(
-                            myController: passwordController,
-                            isPasswordVisible: isPasswordVisible,
+                          GestureDetector(
                             onTap: () {
-                              setState(() {
-                                isPasswordVisible = !isPasswordVisible;
-                              });
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => const RegisterPage(),
+                                ),
+                              );
                             },
-                          ),
+                            child: Text(
+                              'Register',
+                              style: AppTextStyles
+                                  .blackanova.alegreyaDescription
+                                  .copyWith(
+                                color: Colors.red,
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Dont't have an account? ",
-                          style: kBodyText,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => RegisterPage(),
-                              ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MyTextButton(
+                        backgroundColor: AppColors.blackanova.blackanovaOrange,
+                        buttonName: 'Sign In',
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
                             );
-                          },
-                          child: Text(
-                            'Register',
-                            style: kBodyText.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyTextButton(
-                      buttonName: 'Sign In',
-                      onTap: () {},
-                      bgColor: Colors.white,
-                      textColor: Colors.black87,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                            onPressed: (){},
-                            icon: const Icon(FontAwesomeIcons.facebook,color: Colors.blue)
-                        ),
-                        IconButton(
-                            onPressed: (){},
-                            icon: const Icon(FontAwesomeIcons.google,color: Colors.redAccent,)
-                        ),
-                        IconButton(
-                            onPressed: (){},
-                            icon: const Icon(FontAwesomeIcons.phone,color: Colors.orangeAccent,)
-                        )
-                      ],
-                    )
-                  ],
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(FontAwesomeIcons.facebook,
+                                  color: Colors.blue)),
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.google,
+                                color: Colors.redAccent,
+                              )),
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.phone,
+                                color: Colors.orangeAccent,
+                              ))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

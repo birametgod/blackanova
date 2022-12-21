@@ -1,14 +1,15 @@
+import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/screens/register_page.dart';
 import 'package:blackanova/screens/signin_page.dart';
+import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '../widgets/login_widget.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.blackanova.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -20,18 +21,17 @@ class WelcomePage extends StatelessWidget {
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: const Image(
-                          image:
-                          AssetImage('assets/images/team_illustration.png'),
+                        child:  Image(
+                          image: AssetImage(Assets.askMeAQuestionGirl),
                         ),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    const Text(
-                      "Blackanova",
-                      style: kHeadline,
+                     Text(
+                      "blackanova.",
+                      style: AppTextStyles.blackanova.alegreyaTitle,
                       textAlign: TextAlign.center,
 
                     ),
@@ -40,9 +40,9 @@ class WelcomePage extends StatelessWidget {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: const Text(
+                      child:  Text(
                         "Bring all the hairstyler in one place",
-                        style: kBodyText,
+                        style: AppTextStyles.blackanova.alegreyaSubTitle,
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -52,27 +52,29 @@ class WelcomePage extends StatelessWidget {
               Container(
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.grey[850],
+                  color: AppColors.blackanova.background,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: Row(
                   children: [
                     Expanded(
                       child: MyTextButton(
-                        bgColor: Colors.transparent,
+                        backgroundColor: AppColors.blackanova.blackanovaYellow,
                         buttonName: 'Register',
                         onTap: () {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => RegisterPage()));
+                                  builder: (context) => const RegisterPage()));
                         },
-                        textColor: Colors.white,
                       ),
+                    ),
+                    const SizedBox(
+                      width: 20.0,
                     ),
                     Expanded(
                       child: MyTextButton(
-                        bgColor: Colors.transparent,
+                        backgroundColor: AppColors.blackanova.blackanovaOrange,
                         buttonName: 'Sign In',
                         onTap: () {
                           Navigator.push(
@@ -81,7 +83,6 @@ class WelcomePage extends StatelessWidget {
                                 builder: (context) => SignInPage(),
                               ));
                         },
-                        textColor: Colors.white,
                       ),
                     ),
                   ],

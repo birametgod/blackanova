@@ -1,13 +1,17 @@
+import 'package:blackanova/all_imprts.dart';
+import 'package:blackanova/widgets/my_password_field.dart';
+import 'package:blackanova/widgets/my_text_button.dart';
+import 'package:blackanova/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/login_widget.dart';
-import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
@@ -30,17 +34,18 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.blackanova.background ,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: AppColors.blackanova.background,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Image(
+          icon:  Image(
             width: 24,
-            color: Colors.white,
-            image: Svg('assets/images/back_arrow.svg'),
+            color: Colors.black,
+            image: Svg(Assets.backArrowSvg),
           ),
         ),
       ),
@@ -59,13 +64,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                           Text(
                             "Register",
-                            style: kHeadline,
+                            style: AppTextStyles.blackanova.alegreyaTitle,
                           ),
-                          const Text(
+                           Text(
                             "Create new account to get started.",
-                            style: kBodyText2,
+                            style: AppTextStyles.blackanova.alegreyaSubTitle,
                           ),
                           const SizedBox(
                             height: 50,
@@ -100,14 +105,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Already have an account? ",
-                          style: kBodyText,
+                         Text(
+                          "Already have an account ?",
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.blackanova.alegreyaDescription,
                         ),
+                        const SizedBox(width: 10.0,),
                         Text(
                           "Sign In",
-                          style: kBodyText.copyWith(
-                            color: Colors.white,
+                          style: AppTextStyles.blackanova.alegreyaDescription.copyWith(
+                            color: Colors.red,
                           ),
                         ),
                       ],
@@ -116,6 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     MyTextButton(
+                      backgroundColor: AppColors.blackanova.blackanovaYellow,
                       buttonName: 'Register',
                       onTap: () async {
                         try {
@@ -133,8 +141,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           print(e);
                         }
                       },
-                      bgColor: Colors.white,
-                      textColor: Colors.black87,
                     ),
                     const SizedBox(
                       height: 15,

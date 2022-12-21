@@ -1,4 +1,8 @@
+import 'package:blackanova/all_imprts.dart';
+import 'package:blackanova/screens/welcome_page.dart';
+import 'package:blackanova/widgets/portrait_with_description.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:onboarding/onboarding.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -9,141 +13,85 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-
   late int index;
   final List<PageModel> onBoardingPagesList = [
-      PageModel(widget: DecoratedBox(
-        decoration: BoxDecoration(
-          color: background,
-          border: Border.all(
-            width: 0.0,
-            color: background,
-          ),
-        ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.asset('assets/images/googleFlat.png',
-                    color: pageImageColor),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'SECURED BACKUP',
-                    style: pageTitleStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      ),
     PageModel(
-        widget: DecoratedBox(
-      decoration: BoxDecoration(
-        color: background,
-        border: Border.all(
-          width: 0.0,
-          color: background
-        )
+      widget:  PortraitWithDescription(
+        file: Assets.blackSkinGirl,
+        title: 'Mise en relation',
+        description:'Mise en relation avec une coiffeuse près de chez vous.',
       ),
-          child: SingleChildScrollView(
-            controller: ScrollController(),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 45.0,
-                    vertical: 90.0,
-                  ),
-                  child: Image.asset('assets/images/googleFlat.png',
-                      color: pageImageColor),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 45.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'CHANGE AND RISE',
-                      style: pageTitleStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                      style: pageInfoStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-    ))
+    ),
+    PageModel(
+      widget:  PortraitWithDescription(
+        file: Assets.brownSkinGirl,
+        title: 'Profils certifiés et verifiés',
+        description:'Possibilité de prendre rendez-vous avec votre coiffeuse(r) préférée(é). Nous avons des profils certifiés et verifiés.',
+      ),
+    ),
+    PageModel(
+      widget:  PortraitWithDescription(
+        file: Assets.lightSkinGirl,
+        title:  'CHANGE AND RISE',
+        description: 'Une communauté qui réunit tous les estheticiens et coiffeurs dans un seul endroit.',
+      ),
+    ),
   ];
 
-  Material _skipButton ({void Function(int)? setIndex}) {
+  Material _skipButton({void Function(int)? setIndex}) {
     return Material(
       borderRadius: defaultSkipButtonBorderRadius,
       color: defaultSkipButtonColor,
       child: InkWell(
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
-          if(setIndex != null) {
+          if (setIndex != null) {
             index = 2;
-           setIndex(2);
+            setIndex(2);
           }
         },
-      ),
-    );
-}
-
-Material get _signUpButton {
-    return Material(
-      borderRadius: defaultSkipButtonBorderRadius,
-      color: defaultSkipButtonColor,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: InkWell(
-          borderRadius: defaultSkipButtonBorderRadius,
-          onTap: () {},
-          child: const Padding(padding: defaultProceedButtonPadding,
+        child: Padding(
+          padding: defaultSkipButtonPadding,
           child: Text(
-            'Sign up',
-            style: defaultProceedButtonTextStyle,
-          ),),
+            'Skip',
+            style: GoogleFonts.alegreya(
+                textStyle: const TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold)),
+          ),
         ),
       ),
     );
-}
+  }
 
-  static const width = 100.0;
+  Material get _signUpButton {
+    return Material(
+      borderRadius: defaultSkipButtonBorderRadius,
+      color: defaultSkipButtonColor,
+      child: InkWell(
+        borderRadius: defaultSkipButtonBorderRadius,
+        onTap: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+        },
+        child: Padding(
+          padding: defaultProceedButtonPadding,
+          child: Text(
+            'Sign up',
+            style: GoogleFonts.alegreya(
+                textStyle: const TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -153,47 +101,47 @@ Material get _signUpButton {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Scaffold(
-        body: Onboarding(
-          pages: onBoardingPagesList,
-          onPageChange: (int pageIndex) {
-            index = pageIndex;
-          },
-          startPageIndex: 0,
-          footerBuilder: (context, dragDistance, pagesLength, setIndex ) {
-            return DecoratedBox(
-                decoration: BoxDecoration(
-              color: background,
-              border: Border.all(
-                width: 0.0,
-                color: background
-              )
-            ), child: ColoredBox(
-              color: background,
-              child: Padding (
+    return Scaffold(
+      backgroundColor: AppColors.blackanova.background,
+      body: Onboarding(
+        pages: onBoardingPagesList,
+        onPageChange: (int pageIndex) {
+          index = pageIndex;
+        },
+        startPageIndex: 0,
+        footerBuilder: (context, dragDistance, pagesLength, setIndex) {
+          return DecoratedBox(
+            decoration: BoxDecoration(
+                color: AppColors.blackanova.background,
+                border: Border.all(width: 0.0, color: AppColors.blackanova.background)),
+            child: ColoredBox(
+              color: AppColors.blackanova.background,
+              child: Padding(
                 padding: const EdgeInsets.all(45.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomIndicator(netDragPercent: dragDistance, indicator:
-                    Indicator(
-                      indicatorDesign: IndicatorDesign.line(
-                        lineDesign: LineDesign(
-                          lineType: DesignType.line_uniform,
+                    CustomIndicator(
+                        netDragPercent: dragDistance,
+                        indicator: Indicator(
+                          indicatorDesign: IndicatorDesign.line(
+                            lineDesign: LineDesign(
+                              lineType: DesignType.line_nonuniform,
+                            ),
+                          ),
                         ),
-                      ),
-                    ), pagesLength: pagesLength),
-                    index == pagesLength - 1 ? _signUpButton : _skipButton(setIndex: setIndex)
+                        pagesLength: pagesLength),
+                    index == pagesLength - 1
+                        ? _signUpButton
+                        : _skipButton(setIndex: setIndex)
                   ],
                 ),
               ),
             ),
-            );
-          },
-        ),
+          );
+        },
       ),
     );
   }
 }
+

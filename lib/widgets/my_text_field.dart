@@ -1,16 +1,18 @@
+import 'package:blackanova/all_imprts.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
 
 class MyTextField extends StatelessWidget {
+
+  final String hintText;
+  final TextInputType inputType;
+  final TextEditingController myController ;
+
   const MyTextField({
     Key? key,
     required this.hintText,
     required this.inputType,
     required this.myController,
   }) : super(key: key);
-  final String hintText;
-  final TextInputType inputType;
-  final TextEditingController myController ;
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +20,26 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
         controller: myController,
-        style: kBodyText.copyWith(color: Colors.white),
+        style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
         keyboardType: inputType,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
-          hintStyle: kBodyText,
+          hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey,
+            borderSide: const BorderSide(
+              color: Colors.black,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 1,
+            borderSide: const BorderSide(
+              color: Colors.black,
+              width: 2,
             ),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(0.0),
           ),
         ),
       ),

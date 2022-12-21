@@ -1,7 +1,12 @@
+import 'package:blackanova/all_imprts.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
 
 class MyPasswordField extends StatelessWidget {
+
+  final bool isPasswordVisible;
+  final VoidCallback onTap;
+  final TextEditingController myController;
+
   const MyPasswordField({
     Key? key,
     required this.isPasswordVisible,
@@ -9,18 +14,14 @@ class MyPasswordField extends StatelessWidget {
     required this.myController,
   }) : super(key: key);
 
-  final bool isPasswordVisible;
-  final VoidCallback onTap;
-  final TextEditingController myController;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
         controller: myController,
-        style: kBodyText.copyWith(
-          color: Colors.white,
+        style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(
+          color: Colors.black,
         ),
         obscureText: isPasswordVisible,
         keyboardType: TextInputType.text,
@@ -38,22 +39,22 @@ class MyPasswordField extends StatelessWidget {
               ),
             ),
           ),
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           hintText: 'Password',
-          hintStyle: kBodyText,
+          hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey,
+            borderSide: const BorderSide(
+              color: Colors.black,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 1,
+            borderSide: const BorderSide(
+              color: Colors.black,
+              width: 2,
             ),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(0.0),
           ),
         ),
       ),
