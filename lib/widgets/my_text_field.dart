@@ -2,28 +2,46 @@ import 'package:blackanova/all_imprts.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-
   final String hintText;
   final TextInputType inputType;
-  final TextEditingController myController ;
+  final TextEditingController myController;
+  final bool isPassword;
+  final bool isPasswordVisible;
+  final FormFieldValidator<String> validator;
+  final void Function()? onTap;
 
-  const MyTextField({
-    Key? key,
-    required this.hintText,
-    required this.inputType,
-    required this.myController,
-  }) : super(key: key);
+  const MyTextField(
+      {Key? key,
+      required this.hintText,
+      required this.inputType,
+      required this.myController,
+      required this.validator,
+      this.isPassword = false,
+      this.isPasswordVisible = false,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: TextField(
+      child: TextFormField(
+        autofocus: true,
         controller: myController,
-        style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
+        style: AppTextStyles.blackanova.alegreyaFieldTitle
+            .copyWith(color: Colors.black),
+        obscureText: isPasswordVisible ? true : false,
         keyboardType: inputType,
         textInputAction: TextInputAction.next,
+        validator: validator,
         decoration: InputDecoration(
+           suffixIcon: isPassword ? GestureDetector(
+            onTap: onTap,
+            child: Icon(
+              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey,
+            )
+          ) : null,
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
           hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
@@ -34,6 +52,16 @@ class MyTextField extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(0.0),
           ),
+          errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+            width: 1,
+            color: Colors.redAccent,
+          )),
+          focusedErrorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 3,
+                color: Colors.redAccent,
+              )) ,
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Colors.black,

@@ -1,6 +1,5 @@
 import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/screens/register_page.dart';
-import 'package:blackanova/widgets/my_password_field.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,17 +8,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
   @override
-  _SignInPageState createState() => _SignInPageState();
+  SignInPageState createState() => SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class SignInPageState extends State<SignInPage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  bool isPasswordVisible = true;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  bool isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -82,92 +85,37 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                             MyTextField(
                               hintText: 'Phone, email or username',
-                              inputType: TextInputType.text,
+                              inputType: TextInputType.emailAddress,
                               myController: emailController,
-                            ),
-                            TextFormField(
-                              controller: emailController,
-                              style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(20),
-                                hintText: 'Phone, email or username',
-                                hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0.0),
-                                ),
-                              ),
                               validator: (value) {
-                                if(value == null || value.isEmpty) {
-                                  return 'Please enter some text';
+                                RegExp regex = RegExp(AppRegex.authentication.email);
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter email';
+                                } else if (!regex.hasMatch(value)) {
+                                  return 'Enter valid email';
                                 }
                                 return null;
                               },
                             ),
-                            MyPasswordField(
-                              myController: passwordController,
+                            MyTextField(
+                              hintText: 'Password',
+                              isPassword: true,
                               isPasswordVisible: isPasswordVisible,
-                              onTap: () {
-                                setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
-                                });
-                              },
-                            ),
-                            TextFormField(
-                              controller: passwordController,
-                              style: AppTextStyles.blackanova.alegreyaFieldTitle.copyWith(color: Colors.black),
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: IconButton(
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onPressed: () {
-                                      setState(() {
-                                        isPasswordVisible = !isPasswordVisible;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.all(20),
-                                hintText: 'Password',
-                                hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0.0),
-                                ),
-                              ),
+                              inputType: TextInputType.text,
+                              myController: passwordController,
+                                onTap: () {
+                                  setState(() {
+                                    isPasswordVisible = !isPasswordVisible;
+                                  });
+                                },
                               validator: (value) {
-                                if(value == null || value.isEmpty) {
-                                  return 'Please enter some text';
+                                RegExp passwordValid = RegExp(AppRegex.authentication.password);
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter password';
+                                } else if (value.length < 6) {
+                                  return '6 characters or plus';
+                                } else if (!passwordValid.hasMatch(value)) {
+                                  return 'Password should contain Capital, small letter & Number & Special';
                                 }
                                 return null;
                               },
