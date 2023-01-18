@@ -1,4 +1,5 @@
 import 'package:blackanova/all_imprts.dart';
+import 'package:blackanova/screens/phone_page.dart';
 import 'package:blackanova/screens/signin_page.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
 
   bool isPasswordVisible = false;
+  PhoneNumber number = PhoneNumber(isoCode: 'FR');
   //FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
@@ -97,7 +100,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 inputType: TextInputType.emailAddress,
                                 myController: emailController,
                                 validator: (value) {
-                                  RegExp regex = RegExp(AppRegex.authentication.email);
+                                  RegExp regex =
+                                      RegExp(AppRegex.authentication.email);
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter email';
                                   } else if (!regex.hasMatch(value)) {
@@ -105,16 +109,51 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                   return null;
                                 }),
-                            MyTextField(
-                              hintText: 'Phone',
-                              inputType: TextInputType.phone,
-                              myController: phoneController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your number';
-                                }
-                                return null;
-                              },
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 9, horizontal:20),
+                                decoration: BoxDecoration(
+                                  boxShadow:  const [
+                                    BoxShadow(
+                                      color: Color(0xffDDDDDD),
+                                      blurRadius: 6.0,
+                                      spreadRadius: 2.0,
+                                      offset: Offset(0.0, 0.0),
+                                    )
+                                  ] ,
+                                  color: AppColors.blackanova.background,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                    width: 1.4,
+                                    color: AppColors.blackanova.background,
+                                  ),
+                                ),
+                                child: InternationalPhoneNumberInput(
+                                  onInputChanged: (PhoneNumber number) {
+                                    debugPrint(number.phoneNumber);
+                                  },
+                                  onInputValidated: (bool value) {
+                                    debugPrint('$value');
+                                  },
+                                  autoValidateMode: AutovalidateMode.disabled,
+                                  textStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+                                  selectorTextStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+                                  initialValue: number,
+                                  textFieldController: phoneController,
+                                  formatInput: false,
+                                  inputBorder: InputBorder.none,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your number';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (PhoneNumber number) {
+                                    print('On Saved: $number');
+                                  },
+                                ),
+                              ),
                             ),
                             MyTextField(
                               hintText: 'Password',
@@ -128,7 +167,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 });
                               },
                               validator: (value) {
-                                RegExp passwordValid = RegExp(AppRegex.authentication.password);
+                                RegExp passwordValid =
+                                    RegExp(AppRegex.authentication.password);
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter password';
                                 } else if (value.length < 6) {
@@ -164,7 +204,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: Text(
                               "Sign In",
-                              style: AppTextStyles.blackanova.alegreyaDescription
+                              style: AppTextStyles
+                                  .blackanova.alegreyaDescription
                                   .copyWith(
                                 color: Colors.red,
                               ),
@@ -214,7 +255,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                 color: Colors.redAccent,
                               )),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>  const PhoneLogin(),
+                                  ),
+                                );
+                              },
                               icon: const Icon(
                                 FontAwesomeIcons.phone,
                                 color: Colors.orangeAccent,

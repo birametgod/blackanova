@@ -1,5 +1,7 @@
 import 'package:blackanova/all_imprts.dart';
+import 'package:blackanova/screens/phone_page.dart';
 import 'package:blackanova/screens/register_page.dart';
+import 'package:blackanova/screens/update_password_page.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,14 +72,14 @@ class SignInPageState extends State<SignInPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Welcome back.",
+                              "Welcome back!",
                               style: AppTextStyles.blackanova.alegreyaTitle,
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              "You've been missed!",
+                              "You've been missed.",
                               style: AppTextStyles.blackanova.alegreyaSubTitle,
                             ),
                             const SizedBox(
@@ -178,13 +180,27 @@ class SignInPageState extends State<SignInPage> {
                               icon: const Icon(FontAwesomeIcons.facebook,
                                   color: Colors.blue)),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const UpdatePassword(),
+                                  ),
+                                );
+                              },
                               icon: const Icon(
                                 FontAwesomeIcons.google,
                                 color: Colors.redAccent,
                               )),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const PhoneLogin(),
+                                  ),
+                                );
+                              },
                               icon: const Icon(
                                 FontAwesomeIcons.phone,
                                 color: Colors.orangeAccent,

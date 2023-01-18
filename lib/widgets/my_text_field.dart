@@ -35,13 +35,14 @@ class MyTextField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         validator: validator,
         decoration: InputDecoration(
-           suffixIcon: isPassword ? GestureDetector(
-            onTap: onTap,
-            child: Icon(
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-              color: Colors.grey,
-            )
-          ) : null,
+          suffixIcon: isPassword
+              ? GestureDetector(
+                  onTap: onTap,
+                  child: Icon(
+                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ))
+              : null,
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
           hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
@@ -50,24 +51,26 @@ class MyTextField extends StatelessWidget {
               color: Colors.black,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(0.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
-          errorBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-            width: 1,
-            color: Colors.redAccent,
-          )),
-          focusedErrorBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
+          errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 1,
+                color: Colors.redAccent,
+              ),
+              borderRadius: BorderRadius.circular(5.0)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
                 width: 3,
                 color: Colors.redAccent,
-              )) ,
+              ),
+              borderRadius: BorderRadius.circular(5.0)),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Colors.black,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(0.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
         ),
       ),
