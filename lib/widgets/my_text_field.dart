@@ -25,8 +25,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: TextFormField(
-        autofocus: true,
+      child: TextFormField(autofocus: false,
         controller: myController,
         style: AppTextStyles.blackanova.alegreyaFieldTitle
             .copyWith(color: Colors.black),

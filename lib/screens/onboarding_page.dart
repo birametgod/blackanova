@@ -1,5 +1,5 @@
 import 'package:blackanova/all_imprts.dart';
-import 'package:blackanova/screens/welcome_page.dart';
+import 'package:blackanova/screens/main_page.dart';
 import 'package:blackanova/widgets/portrait_with_description.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +74,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+              context, MaterialPageRoute(builder: (context) => const MainPage()));
         },
         child: Padding(
           padding: defaultProceedButtonPadding,
@@ -91,6 +91,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
     );
   }
+
+
 
   @override
   void initState() {

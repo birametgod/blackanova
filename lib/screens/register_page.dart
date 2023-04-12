@@ -1,16 +1,17 @@
 import 'package:blackanova/all_imprts.dart';
-import 'package:blackanova/screens/phone_page.dart';
-import 'package:blackanova/screens/signin_page.dart';
+import 'package:blackanova/providers/base_model.dart';
+import 'package:blackanova/services/authentication.dart';
+import 'package:blackanova/widgets/bottom_bar.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
+
   const RegisterPage({Key? key}) : super(key: key);
 
   @override
@@ -25,9 +26,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isPasswordVisible = false;
   PhoneNumber number = PhoneNumber(isoCode: 'FR');
-  //FirebaseAuth auth = FirebaseAuth.instance;
+  String phoneNumber = "";
 
   @override
   void dispose() {
@@ -40,22 +40,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final providerAuth = Provider.of<BaseModel>(context);
+
     return Scaffold(
       backgroundColor: AppColors.blackanova.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.blackanova.background,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Image(
-            width: 24,
-            color: Colors.black,
-            image: Svg(Assets.backArrowSvg),
-          ),
-        ),
-      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -131,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 child: InternationalPhoneNumberInput(
                                   onInputChanged: (PhoneNumber number) {
-                                    debugPrint(number.phoneNumber);
+                                    phoneNumber = number.phoneNumber!;
                                   },
                                   onInputValidated: (bool value) {
                                     debugPrint('$value');
@@ -158,13 +146,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             MyTextField(
                               hintText: 'Password',
                               isPassword: true,
-                              isPasswordVisible: isPasswordVisible,
+                              isPasswordVisible: providerAuth.passwordVisible,
                               inputType: TextInputType.text,
                               myController: passwordController,
                               onTap: () {
-                                setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
-                                });
+                                providerAuth.passwordVisible = !providerAuth.passwordVisible;
                               },
                               validator: (value) {
                                 RegExp passwordValid =
@@ -182,37 +168,21 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Already have an account ?",
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.blackanova.alegreyaDescription,
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (context) => const SignInPage(),
+                      RichText(
+                          text: TextSpan(
+                              text: "Already have an account ?",
+                              style:
+                              AppTextStyles.blackanova.alegreyaDescription,
+                              children: [
+                                TextSpan(
+                                  text: 'Sign In',
+                                  style: const TextStyle(color: Colors.red),
+                                  // Single tapped.
+                                  recognizer: TapGestureRecognizer()..onTap = () {
+                                    providerAuth.login = !providerAuth.login;
+                                  },
                                 ),
-                              );
-                            },
-                            child: Text(
-                              "Sign In",
-                              style: AppTextStyles
-                                  .blackanova.alegreyaDescription
-                                  .copyWith(
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                              ])),
                       const SizedBox(
                         height: 20,
                       ),
@@ -222,54 +192,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           buttonName: 'Register',
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              try {
-                                await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passwordController.text);
-                              } on FirebaseAuthException catch (e) {
-                                if (e.code == 'weak-password') {
-                                  print('The password provided is too weak.');
-                                } else if (e.code == 'email-already-in-use') {
-                                  print(
-                                      'The account already exists for that email.');
-                                }
-                              } catch (e) {
-                                print(e);
-                              }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Processing Data')),
+                              );
+                              createWithEmailAndPassword(emailController.text, passwordController.text, nameController.text, phoneNumber.trim(),context);
                             }
                           }),
                       const SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(FontAwesomeIcons.facebook,
-                                  color: Colors.blue)),
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                FontAwesomeIcons.google,
-                                color: Colors.redAccent,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) =>  const PhoneLogin(),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.phone,
-                                color: Colors.orangeAccent,
-                              ))
-                        ],
-                      )
+                       BottomBar(parentContext: context,)
                     ],
                   ),
                 ),

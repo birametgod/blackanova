@@ -1,23 +1,28 @@
 import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/services/authentication.dart';
-import 'package:blackanova/widgets/my_text_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-class PhoneLogin extends StatefulWidget {
-  const PhoneLogin({Key? key}) : super(key: key);
+
+class BottomBar extends StatefulWidget {
+
+  final BuildContext parentContext;
+
+  const BottomBar({Key? key, required this.parentContext}) : super(key: key);
+
   @override
-  State<PhoneLogin> createState() => _PhoneLoginState();
+  State<BottomBar> createState() => _BottomBarState();
 }
 
-class _PhoneLoginState extends State<PhoneLogin> {
+class _BottomBarState extends State<BottomBar> {
+
   final _formKey = GlobalKey<FormState>();
   late TextEditingController phoneController;
   late FocusNode _phoneFocusNode;
   PhoneNumber number = PhoneNumber(isoCode: 'FR');
   String phoneNumber = "";
-
 
   @override
   void dispose() {
@@ -35,46 +40,30 @@ class _PhoneLoginState extends State<PhoneLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.blackanova.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.blackanova.background,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Image(
-            width: 24,
-            color: Colors.black,
-            image: Svg('assets/images/back_arrow.svg'),
-          ),
-        ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Column(
-                    children: [
-                      Flexible(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+            onPressed: () {
+              signInWithGoogle(context);
+            },
+            icon: const Icon(
+              FontAwesomeIcons.google,
+              color: Colors.redAccent,
+            )),
+        IconButton(
+            onPressed: () {
+              showDialog(
+                  context: widget.parentContext,
+                  builder: (_){
+                    return  AlertDialog(
+                      title: Text("What is your phone number ?",
+                          style: AppTextStyles.blackanova.alegreyaSubTitle),
+                      contentPadding: const EdgeInsets.all(20.0),
+                      content: Form(
+                        key: _formKey,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children:[
-                            Text(
-                              "What is your phone number ?",
-                              style: AppTextStyles.blackanova.alegreyaSubTitle,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
                             Text(
                               "Please choose a country code and type your phone number.",
                               style: AppTextStyles.blackanova.alegreyaDescription,
@@ -126,33 +115,49 @@ class _PhoneLoginState extends State<PhoneLogin> {
                               ),
                             ),
                           ],
+                        ) ,
+                      ),
+                      actions: [
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: Text('Cancel',
+                              style:
+                              AppTextStyles.blackanova.alegreyaSubTitleForAlertDialog),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                          },
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        TextButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Processing Data')),
+                                );
+                                await signInWithPhoneNumber(widget.parentContext, phoneNumber.trim());
+                              }
+                            },
+                          style: TextButton.styleFrom(
+                            backgroundColor: const Color(0xFFFE7C56),
+                          ),
+                            child: Text(
+                              'Confirm',
+                              style: AppTextStyles.blackanova.regularPoppins,
+                            ),
 
-                      MyTextButton(
-                        backgroundColor: AppColors.blackanova.blackanovaOrange,
-                        buttonName: 'Continuer',
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
-                            );
-                            signInWithPhoneNumber(context, phoneNumber.trim());
-                          }
-                        },
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+                        )
+                      ],
+                    );
+                  }
+              );
+            },
+            icon: const Icon(
+              FontAwesomeIcons.phone,
+              color: Colors.orangeAccent,
+            ))
+      ],
     );
   }
 }

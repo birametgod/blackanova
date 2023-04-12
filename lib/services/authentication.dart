@@ -1,24 +1,79 @@
 import 'package:blackanova/all_imprts.dart';
-import 'package:blackanova/screens/home_page.dart';
+import 'package:blackanova/services/user.dart';
+import 'package:blackanova/widgets/sms_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 TextEditingController codeController = TextEditingController();
 
+Future<void> createWithEmailAndPassword(String email, String password,
+    String name, String phoneNumber, BuildContext context) async {
+  try {
+    UserCredential result = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    addUser(result.user!.uid, name, phoneNumber);
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('The password provided is too weak.')),
+      );
+    } else if (e.code == 'email-already-in-use') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('The account already exists for that email.')),
+      );
+    }
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<void> signInWithEmailAndPassword(
+    String email, String password, BuildContext context) async {
+  try {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('No user found for that email.')),
+      );
+    } else if (e.code == 'wrong-password') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Wrong password provided for that user.')),
+      );
+    }
+  }
+}
+
+Future<void> changePassword(User currentUser, String newPassword) async {
+  try {
+    await currentUser.updatePassword(newPassword);
+  } on FirebaseAuthException catch (e) {
+    debugPrint(e.code);
+  }
+}
+
 Future<void> signInWithPhoneNumber(BuildContext context, String mobile) async {
-  print(mobile);
-  auth.verifyPhoneNumber(
+  await auth.verifyPhoneNumber(
     phoneNumber: mobile,
     // Automatic handling of the SMS code on Android devices.
     verificationCompleted: (PhoneAuthCredential credential) async {
       // Android ONLY
       // Sign the user in (or link) with the auto-generated credential
-      await auth.signInWithCredential(credential).then((value) =>
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePage())));
+      await auth
+          .signInWithCredential(credential)
+          .then((value) => Navigator.popAndPushNamed(context, 'home'));
     },
     // Handle failure events such as invalid phone numbers or whether the SMS quota has been exceeded.
     verificationFailed: (FirebaseAuthException e) {
@@ -41,79 +96,40 @@ Future<void> signInWithPhoneNumber(BuildContext context, String mobile) async {
   );
 }
 
+Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+  try {
+    //Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    //obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    //create a new credential
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken
+    );
+
+    //once SignedIn return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } catch (e) {
+      debugPrint(e.toString());
+      return null;
+  }
+}
+
+Future<void> signIn(String smsCode, String verificationId) async{
+// Create a PhoneAuthCredential with the code
+  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId, smsCode: smsCode);
+  //Sign the user in with the credential
+  await auth.signInWithCredential(credential);
+}
+
 Future<void> _dialogBuilder(BuildContext context, String verificationId) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Enter Sms Code",
-              style: AppTextStyles.blackanova.alegreyaSubTitle),
-          contentPadding: const EdgeInsets.all(20.0),
-          content: PinCodeTextField(
-            showCursor: true,
-            hintCharacter: '?',
-            hintStyle: AppTextStyles.blackanova.alegreyaDescription,
-            cursorWidth: 3,
-            cursorHeight: 20,
-            cursorColor: Colors.blue,
-            animationType: AnimationType.slide,
-            backgroundColor: Colors.transparent,
-            keyboardType: TextInputType.number,
-            obscureText: true,
-            controller: codeController,
-            appContext: context,
-            length: 6,
-            keyboardAppearance: Brightness.dark,
-            textStyle: const TextStyle(color: Colors.black),
-            pinTheme: PinTheme(
-              shape: PinCodeFieldShape.underline,
-              borderRadius: BorderRadius.circular(5.0),
-              inactiveColor: Colors.black,
-              selectedColor: Colors.grey,
-              activeColor: Colors.black,
-              borderWidth: 1.0,
-            ),
-            onChanged: (String value) {},
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: Text('Confirm',
-                  style:
-                      AppTextStyles.blackanova.alegreyaSubTitleForAlertDialog),
-              onPressed: () async {
-                // resendToken only supported in android devices
-                // Update the UI - wait for the user to enter the SMS code
-                String smsCode = codeController.text.trim();
-                // Create a PhoneAuthCredential with the code
-                PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                    verificationId: verificationId, smsCode: smsCode);
-                //Sign the user in with the credential
-                await auth
-                    .signInWithCredential(credential)
-                    .then((value) => {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()))
-                        })
-                    .catchError((error) {
-                  debugPrint("this error");
-                });
-              },
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Resend code',
-                  style:
-                      AppTextStyles.blackanova.alegreyaSubTitleForAlertDialog,
-                ))
-          ],
-        );
+        return SmsDialog(verificationId: verificationId,);
       });
 }

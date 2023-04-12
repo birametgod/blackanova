@@ -1,52 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
-import '../screens/register_page.dart';
+FirebaseFirestore db = FirebaseFirestore.instance;
 
-Future<void> addUser(User? user,String name, String phoneNumber,String idLicense, String typeUser, BuildContext context) {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-  return users
-      .doc(user!.uid)
+Future<void> addUser(String uid, String name, String phoneNumber) {
+  return db
+      .collection('users')
+      .doc(uid)
       .set({
-    "name": name,
-    "idLicense": idLicense,
-    "phoneNumber": phoneNumber,
-    "type" : typeUser
-  })
-      .then((value) => {
-    print('is saving ...'),
-    // Navigate to the Home Screen
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return RegisterPage();
-        },
-      ),
-    )
-  })
-      .catchError((error) => print("Failed to add user: $error"));
+        "name": name,
+        "phoneNumber": phoneNumber,
+      })
+      .then((value) => debugPrint("User Added"))
+      .catchError((error) => debugPrint("Failed to add user: $error"));
 }
 
 Future<void> updateUser(String userId, BuildContext context, String firstName,
     String lastName, String number, String type) {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference users = db.collection('users');
   return users
       .doc(userId)
       .update({
-    "firstName": firstName,
-    "lastName": lastName,
-    "number": number,
-    "type": type
-  })
+        "firstName": firstName,
+        "lastName": lastName,
+        "number": number,
+        "type": type
+      })
       .then((value) => {
-    // Navigate to the Home Screen
-    Navigator.of(context).pushAndRemoveUntil(
+            // Navigate to the Home Screen
+            /*Navigator.of(context).pushAndRemoveUntil(
         PageTransition(
             child: RegisterPage(), type: PageTransitionType.rightToLeft),
-            (route) => false)
-  })
+            (route) => false)*/
+          })
       .catchError((error) => print("Failed to update user: $error"));
 }

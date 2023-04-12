@@ -1,15 +1,15 @@
 import 'package:blackanova/all_imprts.dart';
-import 'package:blackanova/screens/phone_page.dart';
-import 'package:blackanova/screens/register_page.dart';
-import 'package:blackanova/screens/update_password_page.dart';
+import 'package:blackanova/providers/base_model.dart';
+import 'package:blackanova/services/authentication.dart';
+import 'package:blackanova/widgets/bottom_bar.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
+
   const SignInPage({super.key});
 
   @override
@@ -24,7 +24,6 @@ class SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -35,9 +34,11 @@ class SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final providerAuth = Provider.of<BaseModel>(context);
+
     return Scaffold(
       backgroundColor: AppColors.blackanova.background,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: AppColors.blackanova.background,
         elevation: 0,
         leading: IconButton(
@@ -50,7 +51,7 @@ class SignInPageState extends State<SignInPage> {
             image: Svg(Assets.backArrowSvg),
           ),
         ),
-      ),
+      ),*/
       body: SafeArea(
         // Build a Form widget using the _formKey created above.
         child: Form(
@@ -86,11 +87,12 @@ class SignInPageState extends State<SignInPage> {
                               height: 60,
                             ),
                             MyTextField(
-                              hintText: 'Phone, email or username',
+                              hintText: 'Email',
                               inputType: TextInputType.emailAddress,
                               myController: emailController,
                               validator: (value) {
-                                RegExp regex = RegExp(AppRegex.authentication.email);
+                                RegExp regex =
+                                    RegExp(AppRegex.authentication.email);
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter email';
                                 } else if (!regex.hasMatch(value)) {
@@ -102,22 +104,17 @@ class SignInPageState extends State<SignInPage> {
                             MyTextField(
                               hintText: 'Password',
                               isPassword: true,
-                              isPasswordVisible: isPasswordVisible,
+                              isPasswordVisible: providerAuth.passwordVisible,
                               inputType: TextInputType.text,
                               myController: passwordController,
-                                onTap: () {
-                                  setState(() {
-                                    isPasswordVisible = !isPasswordVisible;
-                                  });
-                                },
+                              onTap: () {
+                                providerAuth.passwordVisible = !providerAuth.passwordVisible;
+                              },
                               validator: (value) {
-                                RegExp passwordValid = RegExp(AppRegex.authentication.password);
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter password';
                                 } else if (value.length < 6) {
                                   return '6 characters or plus';
-                                } else if (!passwordValid.hasMatch(value)) {
-                                  return 'Password should contain Capital, small letter & Number & Special';
                                 }
                                 return null;
                               },
@@ -125,36 +122,21 @@ class SignInPageState extends State<SignInPage> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account ?",
-                            style: AppTextStyles.blackanova.alegreyaDescription,
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (context) => const RegisterPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Register',
-                              style: AppTextStyles
-                                  .blackanova.alegreyaDescription
-                                  .copyWith(
-                                color: Colors.red,
-                              ),
+                      RichText(
+                          text: TextSpan(
+                              text: "Don't have an account ?",
+                              style:
+                                  AppTextStyles.blackanova.alegreyaDescription,
+                              children: [
+                            TextSpan(
+                              text: 'Register',
+                              style: const TextStyle(color: Colors.red),
+                              // Single tapped.
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                providerAuth.login = !providerAuth.login;
+                              },
                             ),
-                          )
-                        ],
-                      ),
+                          ])),
                       const SizedBox(
                         height: 20,
                       ),
@@ -166,47 +148,14 @@ class SignInPageState extends State<SignInPage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Processing Data')),
                             );
+                            signInWithEmailAndPassword(emailController.text, passwordController.text, context);
                           }
                         },
                       ),
                       const SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(FontAwesomeIcons.facebook,
-                                  color: Colors.blue)),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => const UpdatePassword(),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.google,
-                                color: Colors.redAccent,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => const PhoneLogin(),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(
-                                FontAwesomeIcons.phone,
-                                color: Colors.orangeAccent,
-                              ))
-                        ],
-                      )
+                       BottomBar(parentContext: context,)
                     ],
                   ),
                 ),

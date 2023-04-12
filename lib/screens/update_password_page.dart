@@ -1,6 +1,7 @@
 import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:blackanova/widgets/my_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -15,6 +16,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   final newPasswordController = TextEditingController();
   final newPasswordController1 = TextEditingController();
   final passwordController = TextEditingController();
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   void dispose() {
