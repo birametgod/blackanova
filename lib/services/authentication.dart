@@ -1,10 +1,8 @@
-import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/services/user.dart';
 import 'package:blackanova/widgets/sms_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 TextEditingController codeController = TextEditingController();

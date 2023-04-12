@@ -20,7 +20,6 @@ class _BottomBarState extends State<BottomBar> {
 
   final _formKey = GlobalKey<FormState>();
   late TextEditingController phoneController;
-  late FocusNode _phoneFocusNode;
   PhoneNumber number = PhoneNumber(isoCode: 'FR');
   String phoneNumber = "";
 
@@ -35,7 +34,6 @@ class _BottomBarState extends State<BottomBar> {
     super.initState();
     phoneController = TextEditingController();
     // manage after
-    _phoneFocusNode = FocusNode();
   }
 
   @override

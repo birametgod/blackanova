@@ -24,7 +24,6 @@ class _StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     checkFirstSeen();
     super.initState();
   }
