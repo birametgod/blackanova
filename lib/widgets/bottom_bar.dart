@@ -1,5 +1,6 @@
 import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/services/authentication.dart';
+import 'package:blackanova/widgets/my_text_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,8 +56,9 @@ class _BottomBarState extends State<BottomBar> {
                   context: widget.parentContext,
                   builder: (_){
                     return  AlertDialog(
+                      backgroundColor:const Color(0xff19191A).withOpacity(0.9),
                       title: Text("What is your phone number ?",
-                          style: AppTextStyles.blackanova.alegreyaSubTitle),
+                          style: AppTextStyles.blackanova.poppinsSubTitle),
                       contentPadding: const EdgeInsets.all(20.0),
                       content: Form(
                         key: _formKey,
@@ -64,7 +66,7 @@ class _BottomBarState extends State<BottomBar> {
                           children:[
                             Text(
                               "Please choose a country code and type your phone number.",
-                              style: AppTextStyles.blackanova.alegreyaDescription,
+                              style: AppTextStyles.blackanova.poppinsDescription,
                             ),
                             const SizedBox(
                               height: 50,
@@ -74,15 +76,7 @@ class _BottomBarState extends State<BottomBar> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 9, horizontal:20),
                                 decoration: BoxDecoration(
-                                  boxShadow:  const [
-                                    BoxShadow(
-                                      color: Color(0xffDDDDDD),
-                                      blurRadius: 6.0,
-                                      spreadRadius: 2.0,
-                                      offset: Offset(0.0, 0.0),
-                                    )
-                                  ] ,
-                                  color: AppColors.blackanova.background,
+                                  color: Colors.transparent,
                                   borderRadius: BorderRadius.circular(5.0),
                                   border: Border.all(
                                     width: 1.4,
@@ -93,10 +87,16 @@ class _BottomBarState extends State<BottomBar> {
                                   onInputChanged: (PhoneNumber number) {
                                     phoneNumber = number.phoneNumber!;
                                   },
+                                  inputDecoration: const InputDecoration(
+                                    hintText: 'Phone Number',
+                                    hintStyle: TextStyle(
+                                      color: Colors.white, // Set the desired hint text color
+                                    ),
+                                  ),
                                   initialValue: number,
                                   autoValidateMode: AutovalidateMode.disabled,
-                                  textStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
-                                  selectorTextStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+                                  textStyle: AppTextStyles.blackanova.poppinsFieldTitle,
+                                  selectorTextStyle: AppTextStyles.blackanova.poppinsFieldTitle,
                                   textFieldController: phoneController,
                                   formatInput: false,
                                   inputBorder: InputBorder.none,
@@ -116,36 +116,57 @@ class _BottomBarState extends State<BottomBar> {
                         ) ,
                       ),
                       actions: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: Theme.of(context).textTheme.labelLarge,
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle button click
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:  Colors.transparent, // Set the background color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(35), // Set the border radius
+                              side: const BorderSide (width: 2, color: Colors.white)
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 25)
                           ),
                           child: Text('Cancel',
                               style:
                               AppTextStyles.blackanova.alegreyaSubTitleForAlertDialog),
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                          },
                         ),
-                        TextButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Processing Data')),
-                                );
-                                await signInWithPhoneNumber(widget.parentContext, phoneNumber.trim());
-                              }
-                            },
-                          style: TextButton.styleFrom(
-                            backgroundColor: const Color(0xFFFE7C56),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Processing Data')),
+                              );
+                              await signInWithPhoneNumber(widget.parentContext, phoneNumber.trim());
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF14CACA), // Set the background color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(35), // Set the border radius
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 25)
                           ),
-                            child: Text(
-                              'Confirm',
-                              style: AppTextStyles.blackanova.regularPoppins,
-                            ),
-
-                        )
+                          child: Text('Confirm',
+                              style:
+                              AppTextStyles.blackanova.alegreyaSubTitleForAlertDialog),
+                        ),
+                        /*MyTextButton(
+                          backgroundColor: Colors.transparent,
+                          buttonName: 'Confirm',
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Processing Data')),
+                              );
+                              await signInWithPhoneNumber(widget.parentContext, phoneNumber.trim());
+                          }
+                          },
+                        ),*/
                       ],
                     );
                   }

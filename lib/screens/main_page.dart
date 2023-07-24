@@ -1,6 +1,7 @@
 import 'package:blackanova/app_colors.dart';
 import 'package:blackanova/screens/auth_page.dart';
 import 'package:blackanova/screens/home_page.dart';
+import 'package:blackanova/screens/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _MainPageState extends State<MainPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('has data');
-            return const HomePage();
+            return const WelcomePage();
           } else {
             return const AuthPage();
           }

@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Text(
                 "blackanova.",
-                style: AppTextStyles.blackanova.alegreyaTitle,
+                style: AppTextStyles.blackanova.poppinsTitle,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 child:  Text(
                   "Bring all the hairstyler in one place",
-                  style: AppTextStyles.blackanova.alegreyaSubTitle,
+                  style: AppTextStyles.blackanova.poppinsSubTitle,
                   textAlign: TextAlign.center,
                 ),
               ),

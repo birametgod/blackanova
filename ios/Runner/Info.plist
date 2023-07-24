@@ -43,6 +43,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>This app requires access to your location for FilledStacks tutorial.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app requires access to your location for FilledStacks tutorial.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>your usage description here</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

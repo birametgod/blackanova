@@ -27,8 +27,8 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(autofocus: false,
         controller: myController,
-        style: AppTextStyles.blackanova.alegreyaFieldTitle
-            .copyWith(color: Colors.black),
+        style: AppTextStyles.blackanova.poppinsFieldTitle
+            .copyWith(color: Colors.white),
         obscureText: isPasswordVisible ? true : false,
         keyboardType: inputType,
         textInputAction: TextInputAction.next,
@@ -39,15 +39,15 @@ class MyTextField extends StatelessWidget {
                   onTap: onTap,
                   child: Icon(
                     isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
+                    color: Colors.white,
                   ))
               : null,
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
-          hintStyle: AppTextStyles.blackanova.alegreyaFieldTitle,
+          hintStyle: AppTextStyles.blackanova.poppinsFieldTitle,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: Colors.black,
+              color: Colors.white,
               width: 1,
             ),
             borderRadius: BorderRadius.circular(5.0),
@@ -66,7 +66,7 @@ class MyTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0)),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: Colors.black,
+              color: Colors.white,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(5.0),

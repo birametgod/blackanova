@@ -25,12 +25,12 @@ class _SmsDialogState extends State<SmsDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Enter Sms Code",
-          style: AppTextStyles.blackanova.alegreyaSubTitle),
+          style: AppTextStyles.blackanova.poppinsSubTitle),
       contentPadding: const EdgeInsets.all(20.0),
       content: PinCodeTextField(
         showCursor: true,
         hintCharacter: '?',
-        hintStyle: AppTextStyles.blackanova.alegreyaDescription,
+        hintStyle: AppTextStyles.blackanova.poppinsDescription,
         cursorWidth: 3,
         cursorHeight: 20,
         cursorColor: Colors.blue,

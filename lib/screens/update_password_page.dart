@@ -61,14 +61,14 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                         children: [
                            Text(
                             "Change password ?",
-                             style: AppTextStyles.blackanova.alegreyaSubTitle,
+                             style: AppTextStyles.blackanova.poppinsSubTitle,
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                            Text(
                             "You can update your password here.",
-                             style: AppTextStyles.blackanova.alegreyaDescription,
+                             style: AppTextStyles.blackanova.poppinsDescription,
                           ),
                           const SizedBox(
                             height: 50,

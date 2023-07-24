@@ -43,7 +43,7 @@ class PortraitWithDescription extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   description,
-                  style: AppTextStyles.blackanova.alegreyaDescription,
+                  style: AppTextStyles.blackanova.poppinsDescription,
                   textAlign: TextAlign.left,
                 ),
               ),

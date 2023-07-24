@@ -26,6 +26,7 @@ class MyTextButton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(45.0),
+                border: Border.all( color: Colors.white, width: 2.0)
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
