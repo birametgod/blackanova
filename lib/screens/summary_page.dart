@@ -8,6 +8,7 @@ class SummaryPage extends StatefulWidget {
   final String serviceName;
 
   SummaryPage({
+    // add the name of the hairdresser as require too
     required this.serviceDate,
     required this.serviceTime,
     required this.serviceName,
@@ -71,6 +72,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 children: [
                   Icon(Icons.perm_contact_cal),
                   SizedBox(width: 8),
+
                   Text('Oulimata Niang'),
                 ],
               ),
@@ -131,6 +133,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   border: Border.all(color: Colors.grey), // Add the black border
                   borderRadius: BorderRadius.circular(8), // Set the border radius
                 ),
+                // add input control
                 child: TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(

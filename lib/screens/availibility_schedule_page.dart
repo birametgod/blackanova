@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:blackanova/screens/design_app_theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:blackanova/screens/summary_page.dart';
 
@@ -15,6 +14,8 @@ class _AvailibilityPageState extends State<AvailibilityPage> with TickerProvider
   final CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+
+  // TO-DO : Get the data from firebase
   static const TIME_SLOT = {
     '09:00 am',
     '11:00 am',
@@ -30,7 +31,7 @@ class _AvailibilityPageState extends State<AvailibilityPage> with TickerProvider
   late DateTime serviceDate;
   late String serviceTime;
   late String serviceName;
-
+  // TO-DO : Get the data from firebase
   List<Map<String, dynamic>> services = [
     {
       'name': 'Tresses',
@@ -106,6 +107,7 @@ class _AvailibilityPageState extends State<AvailibilityPage> with TickerProvider
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // TO-DO retrieve the data below from Firebase instead
                               Text(" Oulimata Niang",
                                 style: TextStyle(
                                   fontSize: 20, // Adjust the font size as desired
@@ -125,6 +127,7 @@ class _AvailibilityPageState extends State<AvailibilityPage> with TickerProvider
                                   SizedBox(width: 5),
                                   Text("15.000"),
                                   Spacer(),
+                                  // TO-DO : make it clickable - redirect to pro profile page
                                   Text("More details...", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
                                 ],
                               ),
@@ -354,7 +357,7 @@ class _AvailibilityPageState extends State<AvailibilityPage> with TickerProvider
                   onTap: () => Navigator.pop(context),
                   child: const Icon(
                     Icons.arrow_back,
-                    color: DesignAppTheme.nearlyBlack,
+                    color: Color(0xFF213333),
                   ),
                 ),
               ),
