@@ -20,9 +20,9 @@ class SummaryPage extends StatefulWidget {
 
 class _SummaryPageState extends State<SummaryPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   @override
   void dispose() {
@@ -116,7 +116,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 child: TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                    labelText: 'Name',
+                    labelText: ' Name',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -137,7 +137,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 child: TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: ' Email',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -158,7 +158,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 child: TextFormField(
                   controller: _phoneNumberController,
                   decoration: InputDecoration(
-                    labelText: 'Phone Number',
+                    labelText: ' Phone Number',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
