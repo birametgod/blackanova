@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:blackanova/screens/availibility.dart';
+import 'package:blackanova/screens/profile_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
           body: SafeArea(
               top: false,
           bottom: false,
-              child: Availibility()),
+              child: ProfilePage()),
         ),
       ),
     );
