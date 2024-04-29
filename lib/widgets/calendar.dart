@@ -36,10 +36,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         selectedDecoration: BoxDecoration(
             color: Colors.black,
             shape: BoxShape.circle),
-        todayDecoration: BoxDecoration(
-          color: Colors.black,
-          shape: BoxShape.circle,
-        ),),
+        ),
       calendarFormat: widget.calendarFormat,
       focusedDay: _focusedDay,
       firstDay: DateTime(DateTime.now().year, DateTime.now().month - 3, DateTime.now().day),

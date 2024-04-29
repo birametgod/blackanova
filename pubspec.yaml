@@ -60,6 +60,8 @@ dependencies:
   intl: any
   f_datetimerangepicker: ^0.2.0
   table_calendar: ^3.0.9
+  get: ^4.6.6
+  firebase_storage: ^11.2.4
 
 
 
