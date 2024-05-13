@@ -11,6 +11,8 @@ class BlackanovaColors {
   Color blackanovaOrange = const Color(0xFFF7AA58);
   Color blackanovaBlue = const Color(0xFFBAE2F7);
   Color blackanovaTurquoise = const Color(0xFF14CACC);
+  Color blackanovaTurquoiseSecond = const Color(0xFF14CACA);
+  Color blackanovaGrey = const Color(0xFF7B7B7B);
 }
 
 class Dark {

@@ -43,9 +43,39 @@ class BlackanovaStyles {
     color: Colors.white,
   ));
 
+  TextStyle poppinsTitleForCard = GoogleFonts.poppins(
+      textStyle: const TextStyle(
+        color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+        fontFamily: 'Poppins',
+        fontSize: 16.0,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        height: 1.33, // Equivalent to line-height 16px / font-size 12px
+      ));
+
+  TextStyle poppinsForButtonCard = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+      color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+      fontFamily: 'Poppins',
+      fontSize: 16.0,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w500,
+      height: 1.33, // Equivalent to line-height 16px / font-size 12px
+    ));
+
+  TextStyle poppinsForDescriptionCard = GoogleFonts.poppins(
+      textStyle: const TextStyle(
+        color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+        fontFamily: 'Poppins',
+        fontSize: 14.0,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w300,
+        height: 1.0, // Equivalent to line-height 16px / font-size 12px
+      ));
+
   TextStyle alegreyaSubTitleForAlertDialog = GoogleFonts.poppins(
       textStyle: const TextStyle(
-        fontSize: 20.0,
+        fontSize: 18.0,
         fontWeight: FontWeight.w600,
         color: Colors.white,
       ));
