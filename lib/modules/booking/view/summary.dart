@@ -135,6 +135,29 @@ class Summary extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 15),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey), // Add the black border
+                borderRadius: BorderRadius.circular(8), // Set the border radius
+              ),
+              child: DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                  labelText: 'Type de coiffure',
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                  border: InputBorder.none,
+                ),
+                items: ["long","petit","court"].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  // Handle the value change if needed
+                },
+              ),
+            ),
             SizedBox(height: 20),
 
             Spacer(),

@@ -6,7 +6,10 @@ class User {
   final String? name;
   final String? email;
   final String? address;
+  //opening time
   //add location
+  //average price
+  //rating
   final String? phone;
   // Additional user-related information
 //set shop name ===> user name if professional
@@ -43,4 +46,23 @@ class User {
       if (phone != null) "contactDetails": phone,
     };
   }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<User?> getUserById(String userId) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await _firestore.collection('users').doc(userId).get();
+
+      if (snapshot.exists) {
+        return User.fromFirestore(snapshot, null);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print("Error fetching user: $e");
+      return null;
+    }
+  }
+
 }

@@ -6,4 +6,6 @@ class Resources {
   static AppColors colors = AppColors();
   static AppTextStyles styles = AppTextStyles();
   static AppDecorations decorations = AppDecorations();
+
+
 }

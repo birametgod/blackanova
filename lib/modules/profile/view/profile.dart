@@ -5,6 +5,7 @@ import 'package:blackanova/modules/profile/widget/profile_detail.dart';
 import 'package:blackanova/modules/profile/widget/service_list.dart';
 import 'package:blackanova/modules/profile/widget/portofolio.dart';
 import 'package:blackanova/modules/profile/widget/review.dart';
+import 'package:blackanova/modules/booking/view/booking_v2.dart';
 
 class Profile extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
@@ -117,34 +118,46 @@ class Profile extends StatelessWidget {
                   ),
                 );
               }
-          )
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Container(
-        padding: const EdgeInsets.only(left: 25),
-        decoration: const BoxDecoration(
-          color: Color(0xFFFFFEF2),
-          shape: BoxShape.rectangle
-        ),
-        child: Row(
-          children: [
-            const Text("13 services available", style: TextStyle(fontSize: 18),),
-            Spacer(),
-            ElevatedButton(
-                onPressed: (){},
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-                  primary: const Color(0xFFFFCF00),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+          ),
+          Obx(() => Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              padding: EdgeInsets.only(bottom: 30, left: 10, right: 10),
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                  color: Color(0xFFFFFEF2),
+                  shape: BoxShape.rectangle
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: Text('${ProfileController.to.totalSubServices} services available', style: TextStyle(fontSize: 18),)),
+                  //Spacer(),
+                  ElevatedButton(
+                      onPressed: (){
+                        Get.to(() => Booking());
+                        print(MediaQuery.of(context).size.width);
+                        print(MediaQuery.of(context).size.height);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                          primary: const Color(0xFFFFCF00),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          )
+                      ),
+                      child: const Text("Book now", style: TextStyle(fontSize: 18, color: Colors.black))
                   )
-                ),
-                child: const Text("Book now", style: TextStyle(fontSize: 18, color: Colors.black))
-            )
-          ],
-        ),
-      ),
+                ],
+              ),
+            ),
+          ))
+        ],
+      )
+
     );
   }
 }

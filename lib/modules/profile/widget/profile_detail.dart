@@ -22,7 +22,7 @@ class ProfileDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(8.0),
       color: const Color(0xFFFFFEF2),
       elevation: 0,
       child: ListTile(
@@ -44,7 +44,19 @@ class ProfileDetail extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Add your GestureDetector action here
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          color: const Color(0xFFFFFEF2),
+                          padding: EdgeInsets.all(40.0),
+                          child: Text(
+                            description,
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        );
+                      },
+                    );
                   },
                   child: const Text("More", style: TextStyle(fontWeight: FontWeight.bold),),
                 ),

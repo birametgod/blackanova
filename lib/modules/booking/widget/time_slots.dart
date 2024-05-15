@@ -4,12 +4,10 @@ import 'package:blackanova/modules/booking/controller/booking_v2_controller.dart
 
 class TimeSlot extends StatelessWidget {
 
-  const TimeSlot({super.key});
+  TimeSlot({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final BookingController controller = Get.put(BookingController());
-
     return GetBuilder<BookingController>(
       builder: (controller) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,24 +19,24 @@ class TimeSlot extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          controller.timeSlot.value.isEmpty
+          BookingController.to.timeSlot.isEmpty
               ? const Center(
             child: Text("No Available slots", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
           )
               : GridView.builder(
             padding: EdgeInsets.only(top: 20, bottom: 20),
             shrinkWrap: true,
-            itemCount: controller.timeSlot.value.length,
+            itemCount: BookingController.to.timeSlot.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               childAspectRatio: 3.0,
             ),
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                controller.updateTimeSlot(index);
+                BookingController.to.updateTimeSlot(index);
               },
               child: Card(
-                color: controller.selectedSlotIndex.value == index ? Colors.black : const Color(0xFFFFFEF2),
+                color: BookingController.to.selectedSlotIndex == index ? Colors.black : const Color(0xFFFFFEF2),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -52,9 +50,9 @@ class TimeSlot extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       child: Center(
                         child: Text(
-                          controller.timeSlot.value[index],
+                          BookingController.to.timeSlot[index],
                           style: TextStyle(
-                            color: controller.selectedSlotIndex.value == index ? Colors.white : Colors.black,
+                            color: BookingController.to.selectedSlotIndex == index ? Colors.white : Colors.black,
                           ),
                         ),
                       ),

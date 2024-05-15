@@ -3,23 +3,21 @@ import 'package:get/get.dart';
 import 'package:blackanova/modules/booking/controller/booking_v2_controller.dart';
 
 class Service extends StatelessWidget {
-  const Service({Key? key});
+  Service({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    final BookingController controller = Get.put(BookingController());
     return GetBuilder<BookingController>(
       builder: (controller) => Container(
-            height: 400,// Adjust height as needed
+            height: 400,// change with MediaQuery.of(context).size.height
             child: ListView.builder(
               padding: EdgeInsets.all(8),
-              itemCount: controller.services.length,
+              itemCount: BookingController.to.services.length,
               itemBuilder: (BuildContext context, int index) {
-                final service = controller.services[index];
-                //final isSelectedService = service;
+                final service = BookingController.to.services[index];
                 return GestureDetector(
                   onTap: (){
-                    controller.onServiceNameChanged(index);
+                    BookingController.to.onServiceNameChanged(index);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8),
@@ -36,7 +34,7 @@ class Service extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              service['name'],
+                              service['title'],
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -51,7 +49,7 @@ class Service extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        if (controller.selectedServiceIndex.value == index)
+                        if (BookingController.to.selectedServiceIndex == index)
                         const Icon(Icons.check_circle, color: Colors.black),
                       ],
                     ),

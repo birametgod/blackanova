@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:blackanova/services/booking_service.dart';
 import 'package:blackanova/services/user_service.dart';
 import 'package:blackanova/modules/booking/view/confirmation.dart';
+import 'package:blackanova/models/service_model.dart';
 
 class BookingController extends GetxController {
   Rx<DateTime> focusedDay = DateTime.now().obs;
@@ -13,6 +14,7 @@ class BookingController extends GetxController {
   RxString serviceName = ''.obs;
   RxInt selectedSlotIndex = (-1).obs;
   RxString serviceTime = ''.obs;
+  static BookingController get to => Get.find();
 
   RxList<String> timeSlot = <String>[].obs;
   DoubleValueNotifier topPosition = DoubleValueNotifier(250.0);
@@ -22,6 +24,7 @@ class BookingController extends GetxController {
   final  phoneNumberController = TextEditingController();
 
   final _status = Rx<RxStatus>(RxStatus.empty());
+
 
   @override
   void onReady() {
@@ -33,6 +36,18 @@ class BookingController extends GetxController {
     nameController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
+  }
+
+  List<Map<String, dynamic>> getSubServices(List<Map<String, dynamic>> services) {
+    List<Map<String, dynamic>> subServices = [];
+
+    for (var service in services) {
+      if (service.containsKey('subService')) {
+        subServices.addAll(service['subService']);
+      }
+    }
+    update();
+    return subServices;
   }
 
 
@@ -47,15 +62,20 @@ class BookingController extends GetxController {
       if (availability != null) {
         //print("Available times on $today: $availability");
         timeSlot.addAll(availability);
+        update();
       } else {
         print("No availability found for $today");
+        timeSlot.clear();
       }
     });
 
-    UserService userService = UserService();
-    userService.getUserServices(userId).then((service) {
-      services.addAll(service);
-    });
+    //UserService userService = UserService();
+    //userService.getUserServices(userId).then((service) {
+    //  services.addAll(service);
+    //  update();
+    //});
+    var listService = await getServicesByUserId(userId);
+    services.value = getSubServices(listService);
     super.onInit();
     update();
   }
@@ -93,19 +113,20 @@ class BookingController extends GetxController {
   void updateTimeSlot(int index) {
     serviceTime.value = timeSlot.elementAt(index);
     selectedSlotIndex.value = index;
-    print(serviceTime);
     update();
   }
 
   void onServiceNameChanged(int index) {
     selectedServiceIndex.value = index;
     serviceName.value = services.elementAt(index)['name'];
-    print(serviceName);
     update();
   }
 
   void updateTopPosition(Offset delta) {
-    topPosition.value += delta.dy;
+    //topPosition.value += delta.dy;
+    double newValue = topPosition.value + delta.dy;
+    newValue = newValue.clamp(50.0, 300.0); // Ensure the value stays between 50.0 and 300.0
+    topPosition.value = newValue;
   }
 
   void addBookingInfo() async{

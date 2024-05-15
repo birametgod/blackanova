@@ -2,37 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Review {
   String? id;
-  String? customerID;
-  String? barberID;
-  int? rating;
-  String? feedback;
+  String username;
+  String userImage;
+  String? barberId;
+  int rating;
+  String comment;
+  String date;
 
   Review({
     this.id,
-    this.customerID,
-    this.barberID,
-    this.rating,
-    this.feedback,
+    required this.username,
+    required this.userImage,
+    this.barberId,
+    required this.rating,
+    required this.comment,
+    required this.date,
   });
 
-  factory Review.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final data = snapshot.data();
+  factory Review.fromFirestore(QueryDocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>;
     return Review(
       id: snapshot.id,
-      customerID: data?['customerID'],
-      barberID: data?['barberID'],
-      rating: data?['rating'],
-      feedback: data?['feedback'],
+      username: data['username'],
+      userImage: data['userImage'],
+      barberId: data['barberID'],
+      rating: data['rating'],
+      comment: data['comment'],
+      date: data['date'],
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (customerID != null) 'customerID': customerID,
-      if (barberID != null) 'barberID': barberID,
+      if (username != null) 'username': username,
+      if (userImage != null) 'userImage': userImage,
+      if (barberId != null) 'barberId': barberId,
       if (rating != null) 'rating': rating,
-      if (feedback != null) 'feedback': feedback,
+      if (comment != null) 'date': comment,
+      if (date != null) 'date': date,
     };
   }
 }

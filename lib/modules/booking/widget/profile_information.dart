@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:blackanova/modules/profile/view/profile.dart';
 
 class ProfileInformationWidget extends StatelessWidget {
   final String name;
@@ -60,10 +62,14 @@ class ProfileInformationWidget extends StatelessWidget {
                   Text(price)
                 ],
               ),
-              //TODO : transform to button and redirect to barber profile
-              Text(
-                "More Details",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() =>Profile());
+                },
+                child: const Text(
+                  "More Details",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
               ),
             ],
           )
