@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "663950101732",
+    "project_id": "blackanova-backup",
+    "storage_bucket": "blackanova-backup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663950101732:android:412ab1e3b1025ca3c0f0f1",
+        "android_client_info": {
+          "package_name": "com.example.blackanova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663950101732-q526idldm4fcroalnf3bjdth22fccb1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.blackanova",
+            "certificate_hash": "75e147e176129285c334a664881ef49bcfa786f4"
+          }
+        },
+        {
+          "client_id": "663950101732-bkn3iote0huief4pjcp2dvou2degvoom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV52n_1kDJXZDauB0FLApv3KIRK65Bhyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663950101732-bkn3iote0huief4pjcp2dvou2degvoom.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "663950101732-fe0mv0e9pv9nk61l480mjkk83a10lmpb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.exemple.blackanova"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

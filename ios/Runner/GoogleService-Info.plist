@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>663950101732-fe0mv0e9pv9nk61l480mjkk83a10lmpb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.663950101732-fe0mv0e9pv9nk61l480mjkk83a10lmpb</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>663950101732-q526idldm4fcroalnf3bjdth22fccb1r.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC8IKntPVAlL8B6E2FeBETDtIrn5bnnBzE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>663950101732</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.exemple.blackanova</string>
+	<key>PROJECT_ID</key>
+	<string>blackanova-backup</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blackanova-backup.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:663950101732:ios:44e8d7a2bb3d5390c0f0f1</string>
+</dict>
+</plist>
