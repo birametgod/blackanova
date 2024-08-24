@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../models/service_model.dart';
+import '../../../models/user_model.dart';
 import '../../../services/booking_service.dart';
 import '../view/confirmation.dart';
+import '../../../services/user_service.dart';
 
 class BookingController extends GetxController {
+  final String id;
+
+  BookingController({required this.id}){
+    Get.put(UserService());
+  }
+
   Rx<DateTime> focusedDay = DateTime.now().obs;
   Rx<DateTime?> selectedDay = DateTime.now().obs;
   Rx<DateTime> serviceDate = DateTime.now().obs;
@@ -13,6 +21,7 @@ class BookingController extends GetxController {
   RxString serviceName = ''.obs;
   RxInt selectedSlotIndex = (-1).obs;
   RxString serviceTime = ''.obs;
+  RxString userId = ''.obs;
   RxList serviceTypes = [].obs;
   RxString type = ''.obs;
   static BookingController get to => Get.find();
@@ -24,7 +33,8 @@ class BookingController extends GetxController {
   final  phoneNumberController = TextEditingController();
 
   final _status = Rx<RxStatus>(RxStatus.empty());
-
+  var barberName = ''.obs;
+  var barberLocation = ''.obs;
 
   @override
   void onReady() {
@@ -53,9 +63,16 @@ class BookingController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    String userId = "8IihfI6zhUb78zSCIZO6";
-    DateTime today = DateTime(2024, 3, 7); //DateTime.now();
-
+    String userId = id;
+    final UserService userService = Get.find<UserService>();
+    User? userInfo = await userService.getUserInfo(userId);
+    if (userInfo != null) {
+      barberName.value = userInfo.name;
+      barberLocation.value = userInfo.address;
+    } else {
+    print('Failed to fetch user info for ID: $userId');
+    }
+    DateTime today = DateTime(2024, 9, 4); //DateTime.now();
     BookingService bookingService = BookingService();
     bookingService.getAvailabilityByUserIdAndDate(userId, today)
         .then((availability) {

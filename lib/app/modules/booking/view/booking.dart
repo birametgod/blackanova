@@ -9,20 +9,24 @@ import 'summary.dart';
 import '../../global_widgets/booking_container.dart';
 
 class Booking extends StatelessWidget {
-  final BookingController bookingController = Get.put(BookingController());
-  Booking({Key? key}) : super(key: key);
+  final String id;
+  Booking({Key? key, required this.id}) : super(key: key) {
+    // Initialize the controller with the id
+    Get.put(BookingController(id: id));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final BookingController bookingController = Get.find<BookingController>();
     return BookingContainer(
       element: Column(
         children: [
-          const ProfileInformationWidget(
-            name: "Oulimata Niang",
-            location: "0.2 Km - 123 Avenue Salside, Dkr",
+          Obx(() => ProfileInformationWidget(
             price: "15.000",
             rating: "5.0",
-          ),
+            barberName: bookingController.barberName.value,
+            barberLocation: bookingController.barberLocation.value,
+          )),
           Calendar(),
           TimeSlot(),
           // To-Do display the service once a timeslot is selected
@@ -34,6 +38,7 @@ class Booking extends StatelessWidget {
             ),
           ),
           Service(),
+          SizedBox(height: 2)
         ],
       ),
       button: Container(

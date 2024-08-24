@@ -132,7 +132,7 @@ class HairdresserCard extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Booking(),//HairdresserProfileDark(hairdresser: hairdresser),
+                                    builder: (context) => Booking(id: hairdresser.id.toString(),),//HairdresserProfileDark(hairdresser: hairdresser),
                                   ),
                                 );
                               },

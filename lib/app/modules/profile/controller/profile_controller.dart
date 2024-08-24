@@ -4,8 +4,17 @@ import '../../../models/service_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../services/review_services.dart';
 import '../../../models/review.dart';
+import '../../../services/user_service.dart';
+import '../../../models/user_model.dart';
 
 class ProfileController extends GetxController {
+  //get the id from widget
+  final String id;
+
+  ProfileController({required this.id}){
+    Get.put(UserService());
+  }
+
   List<Service> services = [];
   List<Map<String, dynamic>> service = [];
   List<Review> reviews = [];
@@ -22,10 +31,22 @@ class ProfileController extends GetxController {
     return totalSubServices;
   }
 
+  var barberName = ''.obs;
+  var barberLocation = ''.obs;
+
 
   @override
   Future<void> onInit() async {
-    service = await getServicesByUserId("8IihfI6zhUb78zSCIZO6");
+    String userId = id;
+    final UserService userService = Get.find<UserService>();
+    User? userInfo = await userService.getUserInfo(userId);
+    if (userInfo != null) {
+      barberName.value = userInfo.name;
+      barberLocation.value = userInfo.address;
+    } else {
+      print('Failed to fetch user info for ID: $userId');
+    }
+    service = await getServicesByUserId(userId);
     service.forEach((item) {
       services.add(Service.fromJson(item));
       update();
@@ -33,7 +54,7 @@ class ProfileController extends GetxController {
 
     getServices();
     fetchImageUrls();
-    reviews = await getReviewsByUserId("8IihfI6zhUb78zSCIZO6");
+    reviews = await getReviewsByUserId(userId);
 
     super.onInit();
     update();
@@ -45,7 +66,7 @@ class ProfileController extends GetxController {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('portofolio')
-          .where('userId', isEqualTo: "8IihfI6zhUb78zSCIZO6")
+          .where('userId', isEqualTo: id)
           .get();
 
       imageUrls.value = querySnapshot.docs.map((doc) => doc['url'] as String).toList();

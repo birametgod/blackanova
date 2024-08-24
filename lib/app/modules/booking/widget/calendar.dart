@@ -7,10 +7,9 @@ class Calendar extends StatelessWidget {
 
   Calendar({super.key});
 
-  BookingController controller = Get.put(BookingController());
-
   @override
   Widget build(BuildContext context) {
+    final BookingController controller = Get.find<BookingController>();
     return Obx(() => TableCalendar(
       daysOfWeekStyle: DaysOfWeekStyle(weekdayStyle: TextStyle(fontSize: 15), weekendStyle: TextStyle(fontSize: 15)),
       headerStyle: HeaderStyle(

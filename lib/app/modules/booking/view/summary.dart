@@ -10,7 +10,6 @@ class Summary extends StatelessWidget {
   final String serviceTime;
   final String serviceName;
   final List serviceTypes;
-  final BookingController controller = Get.put(BookingController());
 
   Summary({super.key, required this.serviceDate, required this.serviceTime, required this.serviceName, required this.serviceTypes});
 
@@ -18,6 +17,7 @@ class Summary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BookingController controller = Get.find<BookingController>();
     String formattedServiceDate = DateFormat('dd-MM-yyyy').format(serviceDate);
     var stringList = serviceTypes.map((item) => item as String).toList();
 

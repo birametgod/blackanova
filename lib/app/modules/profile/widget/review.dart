@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controller/profile_controller.dart';
 
 class Review extends StatelessWidget {
-  final ProfileController controller = Get.put(ProfileController());
+  final ProfileController controller = Get.find<ProfileController>();
   Review({super.key});
 
   @override

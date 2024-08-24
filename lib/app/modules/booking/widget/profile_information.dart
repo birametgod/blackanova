@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../profile/view/profile.dart';
+import '../controller/booking_controller.dart';
 
 class ProfileInformationWidget extends StatelessWidget {
-  final String name;
-  final String location;
   final String rating;
   final String price;
+  final String barberName;
+  final String barberLocation;
 
   const ProfileInformationWidget({super.key,
-    required this.name,
-    required this.location,
     required this.rating,
     required this.price,
+    required this.barberName,
+    required this.barberLocation,
   });
 
   @override
   Widget build(BuildContext context) {
+    final BookingController controller = Get.find<BookingController>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -25,7 +27,7 @@ class ProfileInformationWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                name,
+                barberName,
                 style: Get.textTheme.titleSmall,
               ),
               //TODO : add dynamically the number of stars and 5
@@ -45,7 +47,7 @@ class ProfileInformationWidget extends StatelessWidget {
             children: [
               Icon(Icons.location_on_outlined, color: Get.theme.hintColor),
               const SizedBox(width: 5),
-              Text(location.tr, style: Get.textTheme.displaySmall,),
+              Text(barberLocation, style: Get.textTheme.displaySmall)
             ],
           ),
           SizedBox(height: 10),
@@ -61,7 +63,7 @@ class ProfileInformationWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(() =>Profile());
+                  Get.to(() =>Profile(id: controller.id,));
                 },
                 child: Text(
                   "More Details",
