@@ -20,7 +20,7 @@ class ServiceList extends StatelessWidget {
                 children: service.subService.map((subService) {
                   return ListTile(
                     title: Text(subService.title, style: Get.textTheme.titleMedium?.merge(const TextStyle(fontSize: 16))),
-                    leading: Image.network(subService.image),
+                    leading: Image.asset("assets/images/blackGirl.png"),
                     subtitle: Text('Price: ${subService.price} FCFA - Time: ${subService.time}', style: Get.textTheme.displayMedium?.merge(const TextStyle(fontSize: 14)),),
                   );
                 }).toList(),

@@ -3,7 +3,12 @@ import 'package:get/get.dart';
 import '../controller/booking_controller.dart';
 
 class Service extends StatelessWidget {
-  Service({Key? key});
+  final int selectedServiceIndex;
+  final Function(int) onServiceSelected;
+
+  Service({Key? key, required this.selectedServiceIndex, required this.onServiceSelected}) : super(key: key);
+
+  //Service({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,8 @@ class Service extends StatelessWidget {
               final service = BookingController.to.services[index];
               return GestureDetector(
                 onTap: (){
-                  BookingController.to.onServiceNameChanged(index);
+                  //BookingController.to.onServiceNameChanged(index);
+                  onServiceSelected(index);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8),
@@ -46,7 +52,7 @@ class Service extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      if (BookingController.to.selectedServiceIndex == index)
+                      if (selectedServiceIndex == index) //BookingController.to.selectedServiceIndex
                         Icon(Icons.check_circle, color: Get.theme.focusColor),
                     ],
                   ),

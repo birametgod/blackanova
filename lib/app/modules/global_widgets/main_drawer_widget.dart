@@ -5,6 +5,9 @@
  * Copyright (c) 2023
  */
 
+import 'package:blackanova/app/modules/favorites/view/fav.dart';
+import 'package:blackanova/app/modules/home/views/faq.dart';
+import 'package:blackanova/app/modules/home/views/notification.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,7 +102,7 @@ class MainDrawerWidget extends StatelessWidget {
                   Get.find<AuthServiceBlackanova>().user.value.email,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-                /*currentAccountPicture: Stack(
+                currentAccountPicture: Stack(
                   children: [
                     SizedBox(
                       width: 80,
@@ -110,13 +113,13 @@ class MainDrawerWidget extends StatelessWidget {
                           height: 80,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          imageUrl: Get.find<AuthServiceBlackanova>().user.value.avatar!.thumb,
-                          placeholder: (context, url) => Image.asset(
+                          imageUrl: "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+                          /*placeholder: (context, url) => Image.asset(
                             'assets/img/loading.gif',
                             fit: BoxFit.cover,
                             width: double.infinity,
                             height: 80,
-                          ),
+                          ),*/
                           errorWidget: (context, url, error) => Icon(Icons.error_outline),
                         ),
                       ),
@@ -124,95 +127,36 @@ class MainDrawerWidget extends StatelessWidget {
                     Positioned(
                       top: 0,
                       right: 0,
-                      child: Get.find<AuthServiceBlackanova>().user.value.verifiedPhone ?? false
-                          ? Icon(Icons.check_circle, color: Get.theme.colorScheme.secondary, size: 24)
-                          : SizedBox(),
+                      child: Icon(Icons.check_circle, color: Get.theme.colorScheme.secondary, size: 24)
                     )
                   ],
-                ),*/
+                ),
               );
             }
           }),
           SizedBox(height: 20),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            DrawerLinkWidget(
-              icon: Icons.assignment_outlined,
-              text: "Bookings",
-              onTap: (e) {
-                Get.back();
-                Get.find<RootController>().changePage(0);
-              },
-            ),
           DrawerLinkWidget(
-            icon: Icons.folder_special_outlined,
-            text: "My Services",
+            icon: Icons.person_outline,
+            text: "My Bookings",
             onTap: (e) {
-              Get.offAndToNamed(Routes.E_SERVICES);
+              //Get.back();
+              //Get.find<RootController>().changePage(3);
             },
           ),
           DrawerLinkWidget(
-            icon: Icons.build_circle_outlined,
-            text: "My Salons",
+            icon: Icons.folder_special_outlined,
+            text: "My Favorites",
             onTap: (e) {
-              Get.offAndToNamed(Routes.SALONS);
+              Get.to(FavoritesPage());
             },
           ),
           DrawerLinkWidget(
             icon: Icons.notifications_none_outlined,
             text: "Notifications",
             onTap: (e) {
-              Get.offAndToNamed(Routes.NOTIFICATIONS);
+              Get.to(NotificationPage());
             },
           ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            DrawerLinkWidget(
-              icon: Icons.chat_outlined,
-              text: "Messages",
-              onTap: (e) {
-                Get.back();
-                Get.find<RootController>().changePage(2);
-              },
-            ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            if (Get.find<SettingsService>().setting.value.modules!.contains("Subscription"))
-              ListTile(
-                dense: true,
-                title: Text(
-                  "Subscriptions & Payments".tr,
-                  style: Get.textTheme.bodySmall,
-                ),
-                trailing: Icon(
-                  Icons.remove,
-                  color: Get.theme.focusColor.withOpacity(0.3),
-                ),
-              ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            if (Get.find<SettingsService>().setting.value.modules!.contains("Subscription"))
-              DrawerLinkWidget(
-                icon: Icons.fact_check_outlined,
-                text: "Subscriptions History",
-                onTap: (e) {
-                  Get.offAndToNamed(Routes.SUBSCRIPTIONS);
-                },
-              ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            if (Get.find<SettingsService>().setting.value.modules!.contains("Subscription"))
-              DrawerLinkWidget(
-                icon: Icons.auto_awesome_mosaic_outlined,
-                text: "Subscription Packages",
-                onTap: (e) {
-                  Get.offAndToNamed(Routes.PACKAGES);
-                },
-              ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            if (Get.find<SettingsService>().setting.value.modules!.contains("Subscription"))
-              DrawerLinkWidget(
-                icon: Icons.account_balance_wallet_outlined,
-                text: "Wallets",
-                onTap: (e) async {
-                  await Get.offAndToNamed(Routes.WALLETS);
-                },
-              ),
           ListTile(
             dense: true,
             title: Text(
@@ -224,22 +168,7 @@ class MainDrawerWidget extends StatelessWidget {
               color: Get.theme.focusColor.withOpacity(0.3),
             ),
           ),
-          if (Get.find<AuthServiceBlackanova>().user.value.isSalonOwner)
-            DrawerLinkWidget(
-              icon: Icons.person_outline,
-              text: "Account",
-              onTap: (e) {
-                Get.back();
-                Get.find<RootController>().changePage(3);
-              },
-            ),
-          DrawerLinkWidget(
-            icon: Icons.settings_outlined,
-            text: "Settings",
-            onTap: (e) {
-              Get.offAndToNamed(Routes.SETTINGS);
-            },
-          ),
+
           DrawerLinkWidget(
             icon: Icons.translate_outlined,
             text: "Languages",
@@ -269,7 +198,7 @@ class MainDrawerWidget extends StatelessWidget {
             icon: Icons.help_outline,
             text: "Help & FAQ",
             onTap: (e) {
-              Get.offAndToNamed(Routes.HELP);
+              Get.to(const FAQ());
             },
           ),
           //if (Get.find<AuthService>().user.value.isSalonOwner) CustomPageDrawerLinkWidget(),
@@ -292,18 +221,6 @@ class MainDrawerWidget extends StatelessWidget {
               return SizedBox(height: 0);
             }
           }),
-          if (Get.find<SettingsService>().setting.value.enableVersion ?? false )
-            ListTile(
-              dense: true,
-              title: Text(
-                "Version".tr + " " + (Get.find<SettingsService>().setting.value.appVersion ?? "1.0.0"),
-                style: Get.textTheme.bodySmall,
-              ),
-              trailing: Icon(
-                Icons.remove,
-                color: Get.theme.focusColor.withOpacity(0.3),
-              ),
-            )
         ],
       ),
     );

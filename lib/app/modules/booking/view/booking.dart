@@ -28,7 +28,10 @@ class Booking extends StatelessWidget {
             barberLocation: bookingController.barberLocation.value,
           )),
           Calendar(),
-          TimeSlot(),
+          Obx(() => TimeSlot(
+            selectedSlotIndex: bookingController.selectedSlotIndex.value,
+            onSlotSelected: bookingController.updateTimeSlot,
+          )),
           // To-Do display the service once a timeslot is selected
           const Align(
             alignment: Alignment.centerLeft,
@@ -37,7 +40,10 @@ class Booking extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),
-          Service(),
+          Obx(() => Service(
+            selectedServiceIndex: bookingController.selectedServiceIndex.value,
+            onServiceSelected: bookingController.onServiceNameChanged,
+          )),
           SizedBox(height: 2)
         ],
       ),

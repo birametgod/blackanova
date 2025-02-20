@@ -97,6 +97,14 @@ class BookingController extends GetxController {
     update();
   }
 
+  void resetBookingDetails() {
+    serviceDate.value = DateTime.now();
+    serviceTime.value = '';
+    serviceName.value = '';
+    type.value = '';
+    update();
+  }
+
   void onDaySelected(DateTime? selectedDay, DateTime focusedDay) async {
     this.selectedDay.value = selectedDay;
     this.focusedDay.value = focusedDay;

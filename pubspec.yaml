@@ -81,6 +81,12 @@ dependencies:
   image: ^3.0.1
   expandable_text: ^2.3.0
   table_calendar: ^3.0.9
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_screenutil: ^5.9.3
+  accordion: ^2.6.0
+  flutter_riverpod: ^2.6.1
+  intl: ^0.18.1
 
 
 

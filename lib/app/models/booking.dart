@@ -12,9 +12,7 @@ class Booking {
   DateTime? dateTime;
   String? status;
   String? serviceType;
-  //nom
-  //email
-  //telephone
+  String? barberName;
 
   Booking({
     this.id,
@@ -27,7 +25,8 @@ class Booking {
     this.timeSlot,
     this.dateTime,
     this.status,
-    this.serviceType
+    this.serviceType,
+    this.barberName
   });
 
   factory Booking.fromFirestore(
@@ -39,12 +38,13 @@ class Booking {
       customerName: data?['customerName'],
       customerEmail: data?['customerEmail'],
       customerPhone: data?['customerPhone'],
-      barberId: data?['barberId'],
+      barberId: data?['barberID'],
       service: data?['service'],
       timeSlot: data?['timeSlot'],
       dateTime: (data?['dateTime'] as Timestamp?)?.toDate(),
       status: data?['status'],
       serviceType: data?['serviceType'],
+      barberName: data?['barberName'],
     );
   }
 
@@ -60,6 +60,7 @@ class Booking {
       if (dateTime != null) 'dateTime': Timestamp.fromDate(dateTime!),
       if (serviceType != null) 'serviceType': serviceType,
       if (status != null) 'status': status ?? 'pending',
+      if (barberName != null) 'barberName': barberName,
     };
   }
 }

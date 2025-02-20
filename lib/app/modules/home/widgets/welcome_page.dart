@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:blackanova/app/models/user_model.dart' as userModel;
 import 'dart:ui' as ui;
-
+import 'package:get/get.dart';
 import 'package:blackanova/all_imprts.dart';
 import '../../../models/hairdresser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +12,7 @@ import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
-
-
+import 'dart:math' as math;
 import './hairdresser_list.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -164,15 +163,19 @@ class _WelcomePageState extends State<WelcomePage> {
   void getCurrentLocation() async {
     Location location = Location();
     location.getLocation().then(
-      (location) {
+          (location) {
         currentLocation = location;
-        print(currentLocation);
-        setState(() {});
+        _updateHairdresserLocations();
+        if (mounted) {
+          setState(() {
+            // Update your state here
+          });
+        }
       },
     );
     GoogleMapController googleMapController = await _controller.future;
     location.onLocationChanged.listen(
-      (newLoc) {
+          (newLoc) {
         currentLocation = newLoc;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -185,9 +188,29 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
         );
-        setState(() {});
+        if (mounted) {
+          setState(() {
+            // Update your state here
+          });
+        }
       },
     );
+  }
+
+  void _updateHairdresserLocations() {
+    if (currentLocation == null) return;
+
+    const double radius = 0.000045; // Approximately 5 meters in latitude/longitude degrees
+    final double centerLat = currentLocation!.latitude!;
+    final double centerLng = currentLocation!.longitude!;
+
+    // Update hairdressers' locations to form a circle
+    for (int i = 0; i < hairdressers.length; i++) {
+      double angle = (2 * math.pi * i) / hairdressers.length; // Distribute evenly
+      hairdressers[i].latitude = centerLat + radius * math.cos(angle);
+      hairdressers[i].longitude = centerLng + radius * math.sin(angle);
+    }
+
   }
 
   void locateToLocation() async {
@@ -206,16 +229,55 @@ class _WelcomePageState extends State<WelcomePage> {
     setState(() {});
   }
 
+  void loadMapTheme() {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      // Load the custom map theme for dark mode
+      DefaultAssetBundle.of(context)
+          .loadString('assets/mapTheme/constatel.json')
+          .then((value) {
+        setState(() {
+          mapTheme = value;
+        });
+        applyMapStyle();
+      });
+    } else {
+      // Use the default map theme for light mode
+      DefaultAssetBundle.of(context)
+          .loadString('assets/mapTheme/light_map.json')
+          .then((value) {
+        setState(() {
+          mapTheme = value;
+        });
+        applyMapStyle();
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     getCurrentLocation();
-    DefaultAssetBundle.of(context)
-        .loadString('assets/mapTheme/constatel.json')
-        .then((value) {
-      mapTheme = value;
-    });
+    //DefaultAssetBundle.of(context)
+    //    .loadString('assets/mapTheme/constatel.json')
+    //    .then((value) {
+    //  mapTheme = value;
+    //});
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadMapTheme();
+  }
+
+  Future<void> applyMapStyle() async {
+    final GoogleMapController controller = await _controller.future;
+    if (mapTheme.isNotEmpty) {
+      controller.setMapStyle(mapTheme);
+    } else {
+      controller.setMapStyle(null); // Reset to default style
+    }
   }
 
   @override
@@ -233,8 +295,9 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 GoogleMap(
                   onMapCreated: (GoogleMapController controller) {
-                    controller.setMapStyle(mapTheme);
+                    //controller.setMapStyle(mapTheme);
                     _controller.complete(controller);
+                    applyMapStyle();
                   },
                   myLocationButtonEnabled: false,
                   mapToolbarEnabled: true,
@@ -273,7 +336,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   bottom: 0,
                   child: Container(
                     height: 80,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(0xFF0F1012),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20.0),
@@ -285,10 +348,10 @@ class _WelcomePageState extends State<WelcomePage> {
                   right: 16.0,
                   bottom: 90.0,
                   child: FloatingActionButton(
-                      backgroundColor: const Color(0xff19191A).withOpacity(0.9),
+                      backgroundColor: Get.theme.scaffoldBackgroundColor.withOpacity(0.6),//const Color(0xff19191A).withOpacity(0.9),
                       onPressed: () => locateToLocation(),
                       heroTag: 'location',
-                      child: const Icon(Icons.my_location)),
+                      child: Icon(Icons.my_location, color: Get.theme.primaryColor,),),
                 ),
               ],
             ),

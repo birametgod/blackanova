@@ -1,13 +1,5 @@
-/*
- * File name: root_view.dart
- * Last modified: 2022.10.16 at 12:23:15
- * Author: SmarterVision - https://codecanyon.net/user/smartervision
- * Copyright (c) 2022
- */
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../global_widgets/custom_bottom_nav_bar.dart';
 import '../../global_widgets/main_drawer_widget.dart';
 import '../controllers/root_controller.dart';
@@ -29,7 +21,7 @@ class RootView extends GetView<RootController> {
               right: 0,
               bottom: 0,
               child: CustomBottomNavigationBar(
-              backgroundColor: Colors.black, //context.theme.scaffoldBackgroundColor,
+              backgroundColor: context.theme.canvasColor,
               itemColor: context.theme.colorScheme.secondary,
               currentIndex: controller.currentIndex.value,
               onChange: (index) {
@@ -47,10 +39,6 @@ class RootView extends GetView<RootController> {
                 CustomBottomNavigationItem(
                   icon: Icons.chat_outlined,
                   label: "Chats".tr,
-                ),
-                CustomBottomNavigationItem(
-                  icon: Icons.person_outline,
-                  label: "Account".tr,
                 ),
               ],
             ),)

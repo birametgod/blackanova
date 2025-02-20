@@ -4,7 +4,11 @@ import '../controller/booking_controller.dart';
 
 class TimeSlot extends StatelessWidget {
 
-  TimeSlot({super.key});
+  final int selectedSlotIndex;
+  final Function(int) onSlotSelected;
+
+  TimeSlot({super.key, required this.selectedSlotIndex, required this.onSlotSelected});
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +37,11 @@ class TimeSlot extends StatelessWidget {
             ),
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                BookingController.to.updateTimeSlot(index);
+                //BookingController.to.updateTimeSlot(index);
+                onSlotSelected(index);
               },
               child: Card(
-                color: BookingController.to.selectedSlotIndex == index ? Get.theme.focusColor : Get.theme.canvasColor,
+                color: selectedSlotIndex  == index ? Get.theme.focusColor : Get.theme.canvasColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -52,7 +57,7 @@ class TimeSlot extends StatelessWidget {
                         child: Text(
                           BookingController.to.timeSlot[index],
                           style: TextStyle(
-                            color: BookingController.to.selectedSlotIndex == index ? Colors.white : Get.theme.primaryColor,
+                            color: selectedSlotIndex  == index ? Colors.white : Get.theme.primaryColor,
                           ),
                         ),
                       ),

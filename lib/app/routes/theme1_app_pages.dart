@@ -4,6 +4,7 @@ import 'package:blackanova/app/modules/authByBlackanova/bindings/auth_binding.da
 import 'package:blackanova/app/modules/authByBlackanova/views/login_view.dart';
 import 'package:blackanova/app/modules/authByBlackanova/views/register_view.dart';
 import 'package:blackanova/app/modules/authByBlackanova/views/phone_verification_view.dart';
+import 'package:blackanova/app/modules/home/views/faq.dart';
 import 'package:blackanova/app/modules/root/bindings/root_binding.dart';
 import 'package:blackanova/app/modules/root/views/root_view.dart';
 import 'package:get/get.dart';
@@ -16,17 +17,13 @@ import 'app_routes.dart';
 
 class Theme1AppPages {
   static final INITIAL = Get.find<AuthService>().user.value.auth! ? Routes.ROOT : Routes.LOGIN;
-
   static final routes = [
     GetPage(name: Routes.SETTINGS, page: () => SettingsView(), binding: SettingsBinding()),
     GetPage(name: Routes.SETTINGS_THEME_MODE, page: () => ThemeModeView(), binding: SettingsBinding()),
     GetPage(name: Routes.ROOT, page: () => const RootView(), binding: RootBinding(), middlewares: [AuthMiddleware()] ),
-    //GetPage(name: Routes.LOGIN, page: () => LoginView(), binding: AuthBinding()),
     GetPage(name: Routes.LOGIN, page: () => LoginView(), binding: AuthBinding()),
     GetPage(name: Routes.REGISTER, page: () => RegisterView(), binding: AuthBinding()),
     GetPage(name: Routes.PHONE_VERIFICATION, page: () => PhoneVerificationView(), binding: AuthBinding()),
     GetPage(name: Routes.FORGOT_PASSWORD, page: () => ForgotPasswordView(), binding: AuthBinding()),
-
-
   ];
 }

@@ -32,6 +32,7 @@ class Summary extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
+              controller.resetBookingDetails();
               Get.back();
             },
             child: Text(
@@ -164,7 +165,10 @@ class Summary extends StatelessWidget {
             Container(
                 width: double.infinity,
                 child:ElevatedButton(
-                  onPressed: controller.onBookNow,
+                  onPressed: () async {
+                    await controller.onBookNow();
+                    controller.resetBookingDetails();
+                    },
                   style: ElevatedButton.styleFrom(
                       primary: Get.theme.unselectedWidgetColor, // Set the background color
                       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40), // Adjust the button padding as needed

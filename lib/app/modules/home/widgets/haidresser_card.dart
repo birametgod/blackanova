@@ -1,12 +1,12 @@
-import 'package:blackanova/all_imprts.dart';
 import 'package:blackanova/app/models/user_model.dart';
-import '../../../models/hairdresser.dart';
+import 'package:get/get.dart';
 import '../../../providers/base_model.dart';
-import './hairdresser_profile_dark.dart';
+import '../../profile/view/profile.dart';
 import '../../../widgets/glow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../booking/view/booking.dart';
+import '../../booking_v2/views/booking.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HairdresserCard extends StatelessWidget {
@@ -16,10 +16,16 @@ class HairdresserCard extends StatelessWidget {
   const HairdresserCard({Key? key, required this.hairdresser, required this.index})
       : super(key: key);
 
+  Future<void> storeHairdresserId(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selected_hairdresser_id', id);
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final isSelected = Provider.of<BaseModel>(context).selectedCardIndex == index;
+    //final BookingController controller = Get.put(BookingController(id: hairdresser.id.toString()));
 
 
     return GestureDetector(
@@ -30,7 +36,7 @@ class HairdresserCard extends StatelessWidget {
         width: 350, // Set the width of each card
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Card(
-          color: Colors.black,
+          color: context.theme.canvasColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0), // Set the border radius
           ),
@@ -39,10 +45,15 @@ class HairdresserCard extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: Image.asset(
-                    hairdresser.profileImageUrl,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() =>Profile(id: hairdresser.id.toString(),));
+                    },
+                    child: Image.asset(
+                      hairdresser.profileImageUrl,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -80,10 +91,14 @@ class HairdresserCard extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 2.0),
-                                  child: Text(
-                                    hairdresser.name,
-                                    style: AppTextStyles
-                                        .blackanova.poppinsTitleForCard,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(() =>Profile(id: hairdresser.id.toString(),));
+                                    },
+                                    child: Text(
+                                      hairdresser.name,
+                                      style: Get.textTheme.labelLarge,
+                                    ),
                                   ),
                                 ),
                                 // Hairdresser's Rate with Stars (Assuming rate is between 1 to 5)
@@ -102,11 +117,11 @@ class HairdresserCard extends StatelessWidget {
                                   ) : Row(
                                     children: [
                                       for (int i = 0; i < hairdresser.rate!; i++)
-                                        const Icon(Icons.star,
-                                            color: Colors.white, size: 12),
+                                        Icon(Icons.star,
+                                            color: Get.theme.hintColor, size: 12),
                                       for (int i = hairdresser.rate!; i < 5; i++)
-                                        const Icon(Icons.star_outline,
-                                            color: Colors.white, size: 12),
+                                        Icon(Icons.star_outline,
+                                            color: Get.theme.hintColor, size: 12),
                                     ],
                                   ),
                                 ),
@@ -116,8 +131,7 @@ class HairdresserCard extends StatelessWidget {
                                       horizontal: 8.0, vertical: 4.0),
                                   child: Text(
                                     hairdresser.address,
-                                    style: AppTextStyles
-                                        .blackanova.poppinsForDescriptionCard,
+                                    style: Get.textTheme.labelMedium,
                                   ),
                                 ),
                               ],
@@ -128,7 +142,9 @@ class HairdresserCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12.0, vertical: 6.0),
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                print(hairdresser);
+                                //await storeHairdresserId(hairdresser.id.toString());
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -139,7 +155,7 @@ class HairdresserCard extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                   elevation: 0.0,
                                   backgroundColor: isSelected ?  const Color(
-                                      0xFF14CACA) : Colors.white24, // Set the background color
+                                      0xFF14CACA) : Get.theme.scaffoldBackgroundColor, // Set the background color
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         35), // Set the border radius
@@ -147,8 +163,7 @@ class HairdresserCard extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 15)),
                               child: Text('Book now',
-                                  style: AppTextStyles
-                                      .blackanova.poppinsForButtonCard),
+                                  style: Get.textTheme.labelSmall),
                             ),
                           ),
                         ],

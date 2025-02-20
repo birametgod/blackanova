@@ -30,23 +30,23 @@ class User extends Model {
 
   User(
       {String? id,
-      String? name,
-      String? email,
-      String? password,
-      String? apiToken,
-      String? deviceToken,
-      String? phoneNumber,
-      String? verificationId,
-      String? address,
-      double? latitude,
-      double? longitude,
-      String? description,
-      String? profileImageUrl,
-      String? bio,
-      Media? avatar,
-      int? rate,
-      List<Role>? roles,
-      bool? auth}) {
+        String? name,
+        String? email,
+        String? password,
+        String? apiToken,
+        String? deviceToken,
+        String? phoneNumber,
+        String? verificationId,
+        String? address,
+        double? latitude,
+        double? longitude,
+        String? description,
+        String? profileImageUrl,
+        String? bio,
+        Media? avatar,
+        int? rate,
+        List<Role>? roles,
+        bool? auth}) {
     this.id = id;
     _auth = auth;
     _bio = bio;
@@ -239,7 +239,7 @@ class User extends Model {
     data["bio"] = bio;
     data["rate"] = rate;
     data["profileImageUrl"] = profileImageUrl;
-   /* if (this.avatar != null && Uuid.isUuid(avatar!.id!)) {
+    /* if (this.avatar != null && Uuid.isUuid(avatar!.id!)) {
       data['avatar'] = this.avatar!.id;
     }*/
     if (avatar != null) {
@@ -290,25 +290,25 @@ class User extends Model {
   @override
   bool operator ==(dynamic other) =>
       super == other &&
-      other is User &&
-      runtimeType == other.runtimeType &&
-      name == other.name &&
-      email == other.email &&
-      password == other.password &&
-      avatar == other.avatar &&
-      apiToken == other.apiToken &&
-      deviceToken == other.deviceToken &&
-      phoneNumber == other.phoneNumber &&
-      latitude == other.latitude &&
-      longitude == other.longitude &&
-      verifiedPhone == other.verifiedPhone &&
-      verificationId == other.verificationId &&
-      address == other.address &&
-      bio == other.bio &&
-      roles == other.roles &&
-      rate == other.rate &&
-      profileImageUrl == other.profileImageUrl &&
-      auth == other.auth;
+          other is User &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          email == other.email &&
+          password == other.password &&
+          avatar == other.avatar &&
+          apiToken == other.apiToken &&
+          deviceToken == other.deviceToken &&
+          phoneNumber == other.phoneNumber &&
+          latitude == other.latitude &&
+          longitude == other.longitude &&
+          verifiedPhone == other.verifiedPhone &&
+          verificationId == other.verificationId &&
+          address == other.address &&
+          bio == other.bio &&
+          roles == other.roles &&
+          rate == other.rate &&
+          profileImageUrl == other.profileImageUrl &&
+          auth == other.auth;
 
   @override
   int get hashCode =>
