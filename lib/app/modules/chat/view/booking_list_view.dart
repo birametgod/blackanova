@@ -116,7 +116,7 @@ class BookingListView extends StatelessWidget {
                               const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                               const SizedBox(width: 4),
                               Text(
-                                '${booking.dateTime}',
+                                '${booking.date}',
                                 style: const TextStyle(color: Colors.grey),
                               ),
                             ],

@@ -6,8 +6,6 @@ import '../../../models/custom_page_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../home/views/home_view.dart';
 import '../../favorites/view/fav.dart';
-import '../../chat/view/chat.dart';
-import '../../chat/view/booking_status.dart';
 import '../../favorites/view/favorite_screen.dart';
 
 

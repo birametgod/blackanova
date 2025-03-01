@@ -7,7 +7,7 @@ import '../widget/profile_detail.dart';
 import '../widget/service_list.dart';
 import '../widget/portofolio.dart';
 import '../widget/review.dart';
-import '../../booking/view/booking.dart';
+import '../../booking_v2/views/booking.dart';
 
 class Profile extends StatelessWidget {
   final String id;

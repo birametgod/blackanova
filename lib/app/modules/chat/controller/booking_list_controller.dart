@@ -29,6 +29,7 @@ class BookingListController extends GetxController {
         bookings.value = allBookings.where((booking) =>
           booking.status?.toLowerCase() == selectedTab.value.toLowerCase()
         ).toList();
+        print(bookings.value);
       } else {
         print('No user is currently signed in.');
       }

@@ -98,6 +98,7 @@ class BookingService {
   }
 
   //add barber name ****
+  // service location : if at salon store the barber location
   //transform datetime to date
   //to do in summary page
   Future<void> addBooking(
@@ -108,8 +109,10 @@ class BookingService {
       String barberId,
       String service,
       String timeSlot,
-      DateTime dateTime,
-      String serviceType) async {
+      String date,
+      String barberName,
+      String serviceType,
+      String location) async {
     try {
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
       final CollectionReference bookings = firestore
@@ -123,8 +126,10 @@ class BookingService {
         barberId: barberId,
         service: service,
         timeSlot: timeSlot,
-        dateTime: dateTime,
+        date: date,
         serviceType: serviceType,
+        barberName: barberName,
+        location: location,
         status: 'pending', // Default status is 'pending'
       );
 

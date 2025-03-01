@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import '../../../models/service_model.dart';
 import '../../../models/user_model.dart';
 import '../../../services/booking_service.dart';
@@ -27,6 +29,7 @@ class BookingController extends GetxController {
   RxString userId = ''.obs;
   RxList serviceTypes = [].obs;
   RxString type = ''.obs;
+  RxString location = ''.obs;
   static BookingController get to => Get.find();
 
   RxList<String> timeSlot = <String>[].obs;
@@ -36,7 +39,7 @@ class BookingController extends GetxController {
   final  phoneNumberController = TextEditingController();
 
   final _status = Rx<RxStatus>(RxStatus.empty());
-  var barberName = ''.obs;
+  var barber = ''.obs;
   var barberLocation = ''.obs;
 
 
@@ -71,7 +74,7 @@ class BookingController extends GetxController {
     final UserService userService = Get.find<UserService>();
     User? userInfo = await userService.getUserInfo(userId);
     if (userInfo != null) {
-      barberName.value = userInfo.name;
+      barber.value = userInfo.name;
       barberLocation.value = userInfo.address;
     } else {
     print('Failed to fetch user info for ID: $userId');
@@ -136,6 +139,7 @@ class BookingController extends GetxController {
     serviceTime.value = '';
     serviceName.value = '';
     type.value = '';
+    location.value = '';
     update();
   }
 
@@ -185,21 +189,21 @@ class BookingController extends GetxController {
 
 
   void addBookingInfo() async{
-    //add custumer info from the form
     String barberId = "8IihfI6zhUb78zSCIZO6";
     String customerId = "8IihfI6zhUb78zSCIZO6";
     String customerName = nameController.text;
     String customerEmail = emailController.text;
     String customerPhone = phoneNumberController.text;
     String service = serviceName.value;
-    DateTime dateTime = serviceDate.value;
+    String date = DateFormat('dd-MM-yyyy').format(serviceDate.value);
     String timeSlot = serviceTime.value;
     String serviceType = type.value;
+    String barberName = barber.value;
+    String lieu = location.value;
     BookingService bookingService = BookingService();
     try {
-      print("$barberId,$customerId,$service,$dateTime,$timeSlot,$serviceType");
       bookingService.addBooking(
-          customerId,customerName,customerEmail,customerPhone, barberId, service, timeSlot, dateTime, serviceType);
+          customerId,customerName,customerEmail,customerPhone,barberId,service,timeSlot,date,barberName,serviceType,lieu);
     } catch(e){print("error : $e");}
 
   }

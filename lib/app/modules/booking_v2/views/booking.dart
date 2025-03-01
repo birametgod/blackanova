@@ -24,7 +24,7 @@ class Booking extends StatelessWidget {
           Obx(() => ProfileInformationWidget(
             price: "15.000",
             rating: "5.0",
-            barberName: bookingController.barberName.value,
+            barberName: bookingController.barber.value,
             barberLocation: bookingController.barberLocation.value,
           )),
           Calendar(),

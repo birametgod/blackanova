@@ -9,10 +9,11 @@ class Booking {
   String? barberId;
   String? service;
   String? timeSlot;
-  DateTime? dateTime;
+  String? date;
   String? status;
   String? serviceType;
   String? barberName;
+  String? location;
 
   Booking({
     this.id,
@@ -23,10 +24,11 @@ class Booking {
     this.barberId,
     this.service,
     this.timeSlot,
-    this.dateTime,
+    this.date,
     this.status,
     this.serviceType,
-    this.barberName
+    this.barberName,
+    this.location
   });
 
   factory Booking.fromFirestore(
@@ -41,10 +43,11 @@ class Booking {
       barberId: data?['barberID'],
       service: data?['service'],
       timeSlot: data?['timeSlot'],
-      dateTime: (data?['dateTime'] as Timestamp?)?.toDate(),
+      date: data?['date'],
       status: data?['status'],
       serviceType: data?['serviceType'],
       barberName: data?['barberName'],
+      location:  data?['location'],
     );
   }
 
@@ -57,10 +60,11 @@ class Booking {
       if (barberId != null) 'barberID': barberId,
       if (service != null) 'service' : service,
       if (timeSlot != null) 'timeSlot' : timeSlot,
-      if (dateTime != null) 'dateTime': Timestamp.fromDate(dateTime!),
+      if (date != null) 'date': date,
       if (serviceType != null) 'serviceType': serviceType,
       if (status != null) 'status': status ?? 'pending',
       if (barberName != null) 'barberName': barberName,
+      if (location != null) 'location': location,
     };
   }
 }

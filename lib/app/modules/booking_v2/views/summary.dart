@@ -20,6 +20,7 @@ class Summary extends StatelessWidget {
     final BookingController controller = Get.find<BookingController>();
     String formattedServiceDate = DateFormat('dd-MM-yyyy').format(serviceDate);
     var stringList = serviceTypes.map((item) => item as String).toList();
+    var locationList = ["At Home", "At Salon"];
 
     return BlackWhiteBg(
       bar: AppBar(
@@ -55,7 +56,7 @@ class Summary extends StatelessWidget {
                 Icon(Icons.perm_contact_cal),
                 SizedBox(width: 8),
 
-                Text('Oulimata Niang', style:Get.textTheme.displaySmall),
+                Obx(() =>Text(controller.barber.value, style:Get.textTheme.displaySmall)),
               ],
             ),
             Row(
@@ -94,7 +95,7 @@ class Summary extends StatelessWidget {
               child: TextFormField(
                 controller: controller.nameController,
                 decoration: InputDecoration(
-                  labelText: ' Name',
+                  labelText: '    Name',
                   labelStyle: Get.textTheme.displaySmall
                 ),
               ),
@@ -110,7 +111,7 @@ class Summary extends StatelessWidget {
               child: TextFormField(
                   controller: controller.emailController,
                   decoration: InputDecoration(
-                    labelText: ' Email',
+                    labelText: '    Email',
                       labelStyle: Get.textTheme.displaySmall
                   )
               ),
@@ -125,7 +126,7 @@ class Summary extends StatelessWidget {
               child: TextFormField(
                 controller: controller.phoneNumberController,
                 decoration: InputDecoration(
-                  labelText: 'Phone Number',
+                  labelText: '    Phone Number',
                     labelStyle: Get.textTheme.displaySmall
                 ),
                 keyboardType: TextInputType.phone,
@@ -163,6 +164,31 @@ class Summary extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey), // Add the black border
+                borderRadius: BorderRadius.circular(8), // Set the border radius
+              ),
+              child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                    labelText: 'Lieu',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                    border: InputBorder.none,
+                    labelStyle: Get.textTheme.displaySmall
+                ),
+                items: locationList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: Get.textTheme.displaySmall,),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  // Handle the value change if needed
+                  print(value);
+                  controller.location.value = value!;
+                },
+              ),
+            ),
 
             Spacer(),
             Container(
