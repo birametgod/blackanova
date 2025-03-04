@@ -2,14 +2,17 @@ import 'package:blackanova/app/modules/favorites/view/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/fav_controller.dart';
+import '../../global_widgets/black_white_bg.dart';
 
 class FavoritesPage extends StatelessWidget {
   final FavoriteController controller = Get.put(FavoriteController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites', style: TextStyle(fontSize: 24),),
+    return BlackWhiteBg(
+      bar: AppBar(
+        title: Text('Favorites', style: Get.textTheme.titleLarge,),
+        backgroundColor: Get.theme.canvasColor,
+        iconTheme: IconThemeData(color: Get.theme.primaryColor),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -26,7 +29,7 @@ class FavoritesPage extends StatelessWidget {
           ),
         ],
       ),
-      body:Obx(() {
+      element:Obx(() {
         final favoriteHairdressers = controller.hairdressers_list
             .where((hairdresser) => hairdresser['isFavorite'] == true)
             .toList();
@@ -34,7 +37,7 @@ class FavoritesPage extends StatelessWidget {
           return Center(
             child: Text(
               'No favorites yet',
-              style: TextStyle(fontSize: 18),
+              style: Get.textTheme.bodyMedium,
             ),
           );
         }
@@ -44,7 +47,7 @@ class FavoritesPage extends StatelessWidget {
             final hairdresser = favoriteHairdressers[index];
             return ListTile(
               leading: Image.asset(hairdresser['profileImageUrl']),
-              title: Text(hairdresser['name']),
+              title: Text(hairdresser['name'], style: Get.textTheme.titleMedium,),
               trailing: IconButton(
                 icon: Icon(
                   hairdresser['isFavorite']

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import '../../global_widgets/black_white_bg.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -19,26 +19,23 @@ class _NotificationPageState extends State<NotificationPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return ScreenUtilInit(
-      builder: (context, child) => Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
+      builder: (context, child) => BlackWhiteBg(
+        bar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Get.theme.canvasColor,
+          iconTheme: IconThemeData(color: Get.theme.primaryColor),
           leading: GestureDetector(
             onTap: () {
               Get.back();
             },
-            child: Icon(Icons.arrow_back, color: Colors.black, size: 25),
+            child: Icon(Icons.arrow_back),
           ),
           title: Text(
             "Notification",
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Gilroy_Bold',
-            ),
+            style: Get.textTheme.titleLarge
           ),
         ),
-        body: SingleChildScrollView(
+        element: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: height / 20),
@@ -60,7 +57,7 @@ class _NotificationPageState extends State<NotificationPage> {
         height: height / 5,
         width: width / 1.1,
         decoration: BoxDecoration(
-          color: Colors.white,
+          //color: Colors.white,
           borderRadius: BorderRadius.all(
             Radius.circular(18),
           ),
@@ -77,11 +74,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: width / 50),
                 Text(
                   offerName,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Gilroy_Bold',
-                    fontSize: 15,
-                  ),
+                  style: Get.textTheme.headlineSmall,
                 ),
               ],
             ),
@@ -92,11 +85,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 Flexible(
                   child: Text(
                     title,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Gilroy_Medium',
-                      fontSize: 12,
-                    ),
+                    style: Get.textTheme.displaySmall,
                   ),
                 ),
               ],

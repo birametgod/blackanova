@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:blackanova/app/models/user_model.dart' as userModel;
-
+//use this controller for deployment
 class FavoriteController extends GetxController {
   var hairdressers = <userModel.User>[].obs;
   var hairdressers_list = <Map<String, dynamic>>[].obs;

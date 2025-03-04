@@ -46,6 +46,7 @@ class SettingsService extends GetxService {
         primaryColor: Colors.black,
         canvasColor: const Color(0xFFFFFEF2),
         cardColor: Colors.amberAccent,
+        highlightColor: Colors.amberAccent,
         floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
         brightness: Brightness.light,
         dividerColor: parseColor(setting.value.accentColor, opacity: 0.1),
@@ -96,6 +97,7 @@ class SettingsService extends GetxService {
         floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0),
         scaffoldBackgroundColor: Color(0xFF2C2C2C),
         brightness: Brightness.dark,
+        highlightColor: AppColors.blackanova.blackanovaTurquoiseSecond,
         dividerColor: Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
         focusColor: AppColors.blackanova.blackanovaTurquoiseSecond, //selected
         unselectedWidgetColor: AppColors.blackanova.blackanovaTurquoiseSecond,

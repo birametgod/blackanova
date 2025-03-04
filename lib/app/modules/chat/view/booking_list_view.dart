@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/booking_list_controller.dart';
 import 'conversation.dart';
+import '../../global_widgets/black_white_bg.dart';
 
 class BookingListView extends StatelessWidget {
   final BookingListController controller = Get.put(BookingListController());
@@ -13,7 +14,7 @@ class BookingListView extends StatelessWidget {
         child: Obx(() => Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: controller.selectedTab.value == value.toLowerCase() ? Colors.pink : null,
+            color: controller.selectedTab.value == value.toLowerCase() ? Get.theme.highlightColor : null,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Text(
@@ -21,7 +22,7 @@ class BookingListView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: controller.selectedTab.value == value.toLowerCase()
-                ? Colors.white
+                ? Get.theme.primaryColor
                 : Colors.grey,
             ),
           ),
@@ -32,12 +33,13 @@ class BookingListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appointment'),
+    return BlackWhiteBg(
+      bar: AppBar(
+        backgroundColor: Get.theme.canvasColor,
+        title: Text('Bookings', style: context.textTheme.titleLarge,),
         centerTitle: true,
       ),
-      body: Column(
+      element: Column(
         children: [
           // Status Tabs
           Container(
@@ -64,7 +66,7 @@ class BookingListView extends StatelessWidget {
                 return Center(
                   child: Text(
                     'No appointments ${controller.selectedTab.value} yet',
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                    style: Get.textTheme.displayMedium,
                   ),
                 );
               }
@@ -91,10 +93,7 @@ class BookingListView extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   '${booking.barberName}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: Get.textTheme.bodyMedium,
                                 ),
                               ),
                             ],
@@ -107,7 +106,7 @@ class BookingListView extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 index.isEven ? 'Service At Salon' : 'Service At Home',
-                                style: const TextStyle(color: Colors.grey),
+                                style: Get.textTheme.displaySmall,
                               ),
                             ],
                           ),
@@ -117,7 +116,7 @@ class BookingListView extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 '${booking.date}',
-                                style: const TextStyle(color: Colors.grey),
+                                style: Get.textTheme.displaySmall,
                               ),
                             ],
                           ),
@@ -127,7 +126,7 @@ class BookingListView extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 '${booking.timeSlot}',
-                                style: const TextStyle(color: Colors.grey),
+                                style: Get.textTheme.displaySmall,
                               ),
                             ],
                           ),
@@ -136,11 +135,7 @@ class BookingListView extends StatelessWidget {
                             children: [
                               Text(
                                 '${booking.service}',
-                                style: const TextStyle(
-                                  color: Colors.pink,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Get.textTheme.titleMedium,
                               ),
                               Spacer(),
                               Align(
@@ -152,14 +147,14 @@ class BookingListView extends StatelessWidget {
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.pink,
+                                    backgroundColor: Get.theme.highlightColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
-                                  child: const Text(
+                                  child: Text(
                                     'Contact',
-                                    style: TextStyle(color: Colors.white),
+                                    style: Get.textTheme.labelLarge,
                                   ),
                                 ),
                               ),

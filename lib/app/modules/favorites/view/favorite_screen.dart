@@ -2,6 +2,7 @@ import 'package:blackanova/app/modules/favorites/view/fav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/fav_controller.dart';
+import '../../global_widgets/black_white_bg.dart';
 
 class HairdresserListScreen extends StatelessWidget {
   final FavoriteController controller = Get.put(FavoriteController());
@@ -10,9 +11,11 @@ class HairdresserListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hairdressers', style: TextStyle(fontSize: 24),),
+    return BlackWhiteBg(
+      bar: AppBar(
+        title: Text('Hairdressers', style: Get.textTheme.titleLarge,),
+        backgroundColor: Get.theme.canvasColor,
+        iconTheme: IconThemeData(color: Get.theme.primaryColor),
         actions: [
           GestureDetector(
             onTap: () {
@@ -52,7 +55,7 @@ class HairdresserListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Obx(() {
+      element: Obx(() {
         if (controller.hairdressers_list.isEmpty) {
           return Center(child: CircularProgressIndicator());
         }

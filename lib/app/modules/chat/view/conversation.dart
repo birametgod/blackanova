@@ -4,6 +4,8 @@ import 'package:blackanova/app/widgets/new_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../global_widgets/black_white_bg.dart';
+import 'package:get/get.dart';
 
 class Conversation extends StatefulWidget {
   final String receiverUserEmail;
@@ -32,9 +34,12 @@ class _ConversationState extends State<Conversation> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.receiverUserEmail)),
-      body: Column(
+    return BlackWhiteBg(
+      bar: AppBar(
+          backgroundColor: Get.theme.canvasColor,
+          title: Text(widget.receiverUserEmail, style: Get.textTheme.titleSmall,)
+      ),
+      element: Column(
         children: [
           // messages
           Expanded(child: _buildMessageList()),
