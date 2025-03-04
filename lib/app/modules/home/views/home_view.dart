@@ -16,7 +16,7 @@ class HomeView extends GetView<HomeController> {
         return Obx(() {
               return Scaffold(
                 appBar: AppBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor: Theme.of(context).canvasColor,
                   title: Text(
                     Get.find<SettingsService>().setting.value.salonAppName ?? "",
                     style: Get.textTheme.titleLarge,
@@ -25,7 +25,7 @@ class HomeView extends GetView<HomeController> {
                     icon:  Icon(Icons.sort, color: Theme.of(context).primaryColor),
                     onPressed: () => {Scaffold.of(context).openDrawer()},
                   ),
-                  actions: const [NotificationsButtonWidget()]
+                  actions: [NotificationsButtonWidget(iconColor: Get.theme.hintColor)]
                 ),
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: const WelcomePage(),

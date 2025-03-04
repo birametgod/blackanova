@@ -45,4 +45,6 @@ class Availability {
       return MapEntry(key, (value as List<dynamic>).cast<String>());
     });
   }
+
+  toJson() {}
 }

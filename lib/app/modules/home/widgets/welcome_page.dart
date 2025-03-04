@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:blackanova/app/models/user_model.dart' as userModel;
 import 'dart:ui' as ui;
-
+import 'package:get/get.dart';
 import 'package:blackanova/all_imprts.dart';
 import '../../../models/hairdresser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +12,7 @@ import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
-
-
+import 'dart:math' as math;
 import './hairdresser_list.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -42,9 +41,10 @@ class _WelcomePageState extends State<WelcomePage> {
       latitude: 14.7459, // Example latitude value
       longitude: -17.4721, // Example longitude value
       //minimumPrice: 25
+      id: '8IihfI6zhUb78zSCIZO6'
     ),
     userModel.User(
-      name: 'Johne Doeee',
+      name: 'Yousra Adechokan',
       profileImageUrl: "assets/images/ethiopian.png",
       bio: 'Description of Hairdresser 2',
       rate: 4,
@@ -52,8 +52,42 @@ class _WelcomePageState extends State<WelcomePage> {
       latitude: 14.7434, // Example latitude value
       longitude: -17.4854, // Example longitude value
       //minimumPrice: 25
+      id: '1gprLLuG0DquNK5zetYZ'
     ),
     // Add more hairdressers as needed
+    userModel.User(
+      name: 'Seynabou Trawaré',
+      profileImageUrl: "assets/images/ethiopian.png",
+      bio: 'Description of Hairdresser 2',
+      rate: 4,
+      address: '79 cours de la liberte, lyon',
+      latitude: 14.7434, // Example latitude value
+      longitude: -17.4854, // Example longitude value
+      //minimumPrice: 25
+      id: 'Fu53ADecnofLWq3KYUbU'
+    ),
+    userModel.User(
+      name: 'Maria Keita',
+      profileImageUrl: "assets/images/ethiopian.png",
+      bio: 'Description of Hairdresser 2',
+      rate: 4,
+      address: '79 cours de la liberte, lyon',
+      latitude: 14.7434, // Example latitude value
+      longitude: -17.4854, // Example longitude value
+      //minimumPrice: 25
+      id: 'iij1kJfnv5ODntcCZykY'
+    ),
+    userModel.User(
+      name: 'Sonia De Carvalho',
+      profileImageUrl: "assets/images/ethiopian.png",
+      bio: 'Description of Hairdresser 2',
+      rate: 4,
+      address: '79 cours de la liberte, lyon',
+      latitude: 14.7434, // Example latitude value
+      longitude: -17.4854, // Example longitude value
+      //minimumPrice: 25
+      id: 'tF8ivhR9Ne19dH0OgC9q'
+    ),
   ];
 
   @override
@@ -129,15 +163,19 @@ class _WelcomePageState extends State<WelcomePage> {
   void getCurrentLocation() async {
     Location location = Location();
     location.getLocation().then(
-      (location) {
+          (location) {
         currentLocation = location;
-        print(currentLocation);
-        setState(() {});
+        _updateHairdresserLocations();
+        if (mounted) {
+          setState(() {
+            // Update your state here
+          });
+        }
       },
     );
     GoogleMapController googleMapController = await _controller.future;
     location.onLocationChanged.listen(
-      (newLoc) {
+          (newLoc) {
         currentLocation = newLoc;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -150,9 +188,29 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
         );
-        setState(() {});
+        if (mounted) {
+          setState(() {
+            // Update your state here
+          });
+        }
       },
     );
+  }
+
+  void _updateHairdresserLocations() {
+    if (currentLocation == null) return;
+
+    const double radius = 0.000045; // Approximately 5 meters in latitude/longitude degrees
+    final double centerLat = currentLocation!.latitude!;
+    final double centerLng = currentLocation!.longitude!;
+
+    // Update hairdressers' locations to form a circle
+    for (int i = 0; i < hairdressers.length; i++) {
+      double angle = (2 * math.pi * i) / hairdressers.length; // Distribute evenly
+      hairdressers[i].latitude = centerLat + radius * math.cos(angle);
+      hairdressers[i].longitude = centerLng + radius * math.sin(angle);
+    }
+
   }
 
   void locateToLocation() async {
@@ -171,16 +229,55 @@ class _WelcomePageState extends State<WelcomePage> {
     setState(() {});
   }
 
+  void loadMapTheme() {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      // Load the custom map theme for dark mode
+      DefaultAssetBundle.of(context)
+          .loadString('assets/mapTheme/constatel.json')
+          .then((value) {
+        setState(() {
+          mapTheme = value;
+        });
+        applyMapStyle();
+      });
+    } else {
+      // Use the default map theme for light mode
+      DefaultAssetBundle.of(context)
+          .loadString('assets/mapTheme/light_map.json')
+          .then((value) {
+        setState(() {
+          mapTheme = value;
+        });
+        applyMapStyle();
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     getCurrentLocation();
-    DefaultAssetBundle.of(context)
-        .loadString('assets/mapTheme/constatel.json')
-        .then((value) {
-      mapTheme = value;
-    });
+    //DefaultAssetBundle.of(context)
+    //    .loadString('assets/mapTheme/constatel.json')
+    //    .then((value) {
+    //  mapTheme = value;
+    //});
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadMapTheme();
+  }
+
+  Future<void> applyMapStyle() async {
+    final GoogleMapController controller = await _controller.future;
+    if (mapTheme.isNotEmpty) {
+      controller.setMapStyle(mapTheme);
+    } else {
+      controller.setMapStyle(null); // Reset to default style
+    }
   }
 
   @override
@@ -198,8 +295,9 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 GoogleMap(
                   onMapCreated: (GoogleMapController controller) {
-                    controller.setMapStyle(mapTheme);
+                    //controller.setMapStyle(mapTheme);
                     _controller.complete(controller);
+                    applyMapStyle();
                   },
                   myLocationButtonEnabled: false,
                   mapToolbarEnabled: true,
@@ -222,85 +320,6 @@ class _WelcomePageState extends State<WelcomePage> {
                   // Add the hairdresser markers
                   markers: _hairdresserMarkers,
                 ),
-                /* Positioned(
-                  top: 100.0,
-                  left: 16.0,
-                  right: 16.0,
-                  child: Row(
-                    children: [
-                    Expanded(
-                        child: TextFormField(
-                          autofocus: false,
-                          controller: searchController,
-                          style: AppTextStyles.blackanova.poppinsFieldTitle
-                              .copyWith(color: Colors.white),
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              icon: const Icon(
-                                Icons.search,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                searchAndZoom(searchController.text);
-                              },
-                            ),
-                            contentPadding: const EdgeInsets.all(20),
-                            filled: true,
-                            fillColor: const Color(0xff19191A).withOpacity(0.9),
-                            hintText: "Search Address ...",
-                            hintStyle: const TextStyle(color: Colors.white),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0xff19191A),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  width: 1,
-                                  color: Colors.redAccent,
-                                ),
-                                borderRadius: BorderRadius.circular(20.0)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  width: 3,
-                                  color: Colors.redAccent,
-                                ),
-                                borderRadius: BorderRadius.circular(20.0)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: const Color(0xff19191A).withOpacity(1),
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xff19191A).withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.toc_outlined,
-                            color: Colors.white,
-                            size: 30.0,
-                          ),
-                          onPressed: () {
-                            // Handle search button tap
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),*/
-
                 Positioned(
                     left: 0,
                     right: 0,
@@ -317,70 +336,22 @@ class _WelcomePageState extends State<WelcomePage> {
                   bottom: 0,
                   child: Container(
                     height: 80,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(0xFF0F1012),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20.0),
                           topRight: Radius.circular(20.0),
                         )),
-                   /* child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.home_filled,
-                            color: _selectedTabIndex == 0
-                                ? const Color(0xFF14CACA)
-                                : Colors.white,
-                          ),
-                          onPressed: () {
-                            // Handle Home icon tap
-                            setState(() {
-                              _selectedTabIndex = 0;
-                            });
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.calendar_month,
-                            color: _selectedTabIndex == 1
-                                ? const Color(0xFF14CACA)
-                                : Colors.white,
-                          ),
-                          onPressed: () {
-                            // Handle Search icon tap
-                            setState(() {
-                              _selectedTabIndex = 1;
-                            });
-                            FirebaseAuth.instance.signOut();
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.perm_identity_sharp,
-                            color: _selectedTabIndex == 2
-                                ? const Color(0xFF14CACA)
-                                : Colors.white,
-                          ),
-                          onPressed: () {
-                            // Handle Settings icon tap
-                            setState(() {
-                              _selectedTabIndex = 2;
-                            });
-                          },
-                        ),
-                      ],
-                    ),*/
                   ),
                 ),
                 Positioned(
                   right: 16.0,
                   bottom: 90.0,
                   child: FloatingActionButton(
-                      backgroundColor: const Color(0xff19191A).withOpacity(0.9),
+                      backgroundColor: Get.theme.scaffoldBackgroundColor.withOpacity(0.6),//const Color(0xff19191A).withOpacity(0.9),
                       onPressed: () => locateToLocation(),
                       heroTag: 'location',
-                      child: const Icon(Icons.my_location)),
+                      child: Icon(Icons.my_location, color: Get.theme.primaryColor,),),
                 ),
               ],
             ),

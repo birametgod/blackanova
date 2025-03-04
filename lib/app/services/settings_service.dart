@@ -46,6 +46,7 @@ class SettingsService extends GetxService {
         primaryColor: Colors.black,
         canvasColor: const Color(0xFFFFFEF2),
         cardColor: Colors.amberAccent,
+        highlightColor: Colors.amberAccent,
         floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
         brightness: Brightness.light,
         dividerColor: parseColor(setting.value.accentColor, opacity: 0.1),
@@ -53,6 +54,7 @@ class SettingsService extends GetxService {
         shadowColor: Colors.amberAccent,
         focusColor: Colors.black,
         hintColor: Colors.black,
+        scaffoldBackgroundColor: Colors.amberAccent,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(foregroundColor: Ui.parseColor("setting.value.mainColor")),
         ),
@@ -76,6 +78,12 @@ class SettingsService extends GetxService {
             bodyLarge: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Colors.black, height: 1.2)),
             //bodyLarge: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
             bodySmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentColor), height: 1.2),
+
+            //Card text style
+            labelLarge: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.black, fontFamily: 'Poppins', fontSize: 16.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w500, height: 1.33,)),
+            labelMedium: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.black, fontFamily: 'Poppins', fontSize: 14.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w300, height: 1.0,)),
+            labelSmall: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.black, fontFamily: 'Poppins', fontSize: 16.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w500, height: 1.33,))
+
           ),
         ));
   }
@@ -89,6 +97,7 @@ class SettingsService extends GetxService {
         floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0),
         scaffoldBackgroundColor: Color(0xFF2C2C2C),
         brightness: Brightness.dark,
+        highlightColor: AppColors.blackanova.blackanovaTurquoiseSecond,
         dividerColor: Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
         focusColor: AppColors.blackanova.blackanovaTurquoiseSecond, //selected
         unselectedWidgetColor: AppColors.blackanova.blackanovaTurquoiseSecond,
@@ -115,6 +124,11 @@ class SettingsService extends GetxService {
               bodyMedium: GoogleFonts.poppins(textStyle:  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: Colors.white)),
               bodyLarge: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Colors.white, height: 1.2)),
               bodySmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentDarkColor), height: 1.2),
+                //Card text style
+                labelLarge: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.white, fontFamily: 'Poppins', fontSize: 16.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w500, height: 1.33,)),
+                labelMedium: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.white, fontFamily: 'Poppins', fontSize: 14.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w300, height: 1.0,)),
+                labelSmall: GoogleFonts.poppins(textStyle: const TextStyle(color:  Colors.white, fontFamily: 'Poppins', fontSize: 16.0, fontStyle: FontStyle.normal, fontWeight: FontWeight.w500, height: 1.33,))
+
             )));
   }
 

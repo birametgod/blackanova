@@ -1,9 +1,12 @@
+import 'package:blackanova/app/modules/chat/view/booking_list_view.dart';
 import 'package:blackanova/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../models/custom_page_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../home/views/home_view.dart';
+import '../../favorites/view/fav.dart';
+import '../../favorites/view/favorite_screen.dart';
 
 
 class RootController extends GetxController {
@@ -25,9 +28,10 @@ class RootController extends GetxController {
 
   List<Widget> pages = [
     HomeView(),
-    //ReviewsView(),
-    //MessagesView(),
-    //AccountView(),
+    FavoritesPage(),
+    BookingListView()
+    //BookingStatusPage()
+    //ChatScreen()
   ];
 
   Widget get currentPage => pages[currentIndex.value];

@@ -1,5 +1,5 @@
 import 'package:blackanova/all_imprts.dart';
-import 'package:blackanova/app/modules/auth/views/register_view.dart';
+import 'package:blackanova/app/modules/authByBlackanova/views/register_view.dart';
 import './portrait_with_description.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

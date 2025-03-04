@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../root/controllers/root_controller.dart';
+import '../home/views/notification.dart';
 
 class NotificationsButtonWidget extends GetView<RootController> {
   const NotificationsButtonWidget({
@@ -22,7 +23,7 @@ class NotificationsButtonWidget extends GetView<RootController> {
       elevation: 0,
       onPressed: () {
         if (Get.find<AuthService>().isAuth == true) {
-          Get.toNamed(Routes.NOTIFICATIONS);
+          Get.to(() => NotificationPage());
         } else {
           Get.toNamed(Routes.LOGIN);
         }

@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../controller/profile_controller.dart';
 import '../../global_widgets/profile_container.dart';
 import '../widget/profile_detail.dart';
 import '../widget/service_list.dart';
 import '../widget/portofolio.dart';
 import '../widget/review.dart';
-import '../../booking/view/booking.dart';
+import '../../booking_v2/views/booking.dart';
 
 class Profile extends StatelessWidget {
-  final ProfileController profileController = Get.put(ProfileController());
-  Profile({super.key});
+  final String id;
+  Profile({Key? key, required this.id}) : super(key: key) {
+    // Initialize the controller with the id
+    Get.put(ProfileController(id: id));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController profileController = Get.find<ProfileController>();
     return ProfileContainer(
         element: Column(
           children: [
-            const ProfileDetail(
-              name: "Oulita Niang",
+            Obx(() => ProfileDetail(
+              name: profileController.barberName.value,
               description:
-              "My name is Oulita, I am a professional hairdresser with 10 years of experience. I specialize in tresses, chignon, locks.",
-              location: "123 Avenue Salside, Dkr",
+              "My name is ${profileController.barberName.value}, I am a professional hairdresser with 10 years of experience. I specialize in tresses, chignon, locks.",
+              location: profileController.barberLocation.value,
               price: "15,000+",
               openingHour: "Open now 9 AM - 8 PM",
-            ),
+            )),
             DefaultTabController(length: 3, initialIndex: 0, child: Column(
               children: <Widget> [
                 TabBar(
@@ -96,7 +101,7 @@ class Profile extends StatelessWidget {
               //Spacer(),
               ElevatedButton(
                   onPressed: (){
-                    Get.to(() => Booking());
+                    Get.to(() => Booking(id: profileController.id));
                     print(MediaQuery.of(context).size.width);
                     print(MediaQuery.of(context).size.height);
                   },

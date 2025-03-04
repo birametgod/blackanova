@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class AppTextStyles {
   static BlackanovaStyles blackanova = BlackanovaStyles();
@@ -44,33 +45,33 @@ class BlackanovaStyles {
   ));
 
   TextStyle poppinsTitleForCard = GoogleFonts.poppins(
-      textStyle: const TextStyle(
-        color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+      textStyle: TextStyle(
+        color:  Get.theme.hintColor,
         fontFamily: 'Poppins',
         fontSize: 16.0,
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w500,
-        height: 1.33, // Equivalent to line-height 16px / font-size 12px
+        height: 1.33,
       ));
 
   TextStyle poppinsForButtonCard = GoogleFonts.poppins(
-    textStyle: const TextStyle(
-      color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+    textStyle: TextStyle(
+      color:  Get.theme.hintColor,
       fontFamily: 'Poppins',
       fontSize: 16.0,
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w500,
-      height: 1.33, // Equivalent to line-height 16px / font-size 12px
+      height: 1.33,
     ));
 
   TextStyle poppinsForDescriptionCard = GoogleFonts.poppins(
-      textStyle: const TextStyle(
-        color:  Color(0xFFFFFFFF), // Equivalent to --white-100 in CSS
+      textStyle: TextStyle(
+        color:  Get.theme.hintColor,
         fontFamily: 'Poppins',
         fontSize: 14.0,
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w300,
-        height: 1.0, // Equivalent to line-height 16px / font-size 12px
+        height: 1.0,
       ));
 
   TextStyle alegreyaSubTitleForAlertDialog = GoogleFonts.poppins(
